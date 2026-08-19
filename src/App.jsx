@@ -22,7 +22,7 @@ const createClient = (url, key) => ({
 // ==========================================
 // ⚠️ ใส่ URL และ KEY ของ Supabase ของคุณที่นี่
 // ==========================================
-const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co';
+const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_leBQo88PZWYV800h4C6dUA_Oj4gMzMm';
 
 // สร้างตัวเชื่อมต่อฐานข้อมูล
