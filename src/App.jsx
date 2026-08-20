@@ -129,6 +129,15 @@ const SettingsModal = ({ isOpen, onClose, config, onSave, themeConfig }) => {
     }
   };
 
+  const handleBannerUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setFormData({ ...formData, bannerUrl: reader.result });
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
@@ -142,12 +151,12 @@ const SettingsModal = ({ isOpen, onClose, config, onSave, themeConfig }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl">
+      <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-white shadow-2xl rounded-3xl flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
           <h2 className="flex items-center gap-2 text-xl font-extrabold text-gray-800"><Icons.Settings /> ตั้งค่าเว็บไซต์</h2>
           <button onClick={onClose} className="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-200"><Icons.Close /></button>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="flex-grow p-6 space-y-5">
           <div>
             <label className="block mb-2 text-sm font-bold text-gray-700">ชื่อโครงการ / บริษัท</label>
             <input required type="text" value={formData.companyName} onChange={(e) => setFormData({...formData, companyName: e.target.value})} className={`w-full p-3 border border-gray-300 outline-none rounded-xl focus:ring-2 ${themeConfig.ring} focus:border-transparent`} />
@@ -156,10 +165,24 @@ const SettingsModal = ({ isOpen, onClose, config, onSave, themeConfig }) => {
             <label className="block mb-2 text-sm font-bold text-gray-700">รูปภาพโลโก้</label>
             <div className="flex items-center gap-4">
               <label className="px-4 py-2 text-sm font-bold text-gray-700 transition-colors bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-xl">
-                อัปโหลดรูปภาพ
+                อัปโหลดโลโก้
                 <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
               </label>
               {formData.logoUrl && <img src={formData.logoUrl} alt="Logo Preview" className="object-contain h-10" />}
+            </div>
+          </div>
+          <div>
+            <label className="block mb-2 text-sm font-bold text-gray-700">รูปภาพแบนเนอร์ (Hero Banner)</label>
+            <div className="space-y-3">
+              <label className={`block w-full text-center px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl text-sm font-bold text-gray-600 cursor-pointer hover:${themeConfig.border} hover:${themeConfig.text} transition-colors`}>
+                คลิกเพื่อเปลี่ยนรูปภาพแบนเนอร์
+                <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
+              </label>
+              {formData.bannerUrl && (
+                <div className="relative h-32 overflow-hidden border border-gray-200 rounded-xl">
+                  <img src={formData.bannerUrl} alt="Banner Preview" className="object-cover w-full h-full" />
+                </div>
+              )}
             </div>
           </div>
           <div>
@@ -189,7 +212,7 @@ const SettingsModal = ({ isOpen, onClose, config, onSave, themeConfig }) => {
   );
 };
 
-const PublicView = ({ units, themeConfig }) => {
+const PublicView = ({ units, themeConfig, bannerUrl }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('หาซื้อ');
 
@@ -199,14 +222,16 @@ const PublicView = ({ units, themeConfig }) => {
     return matchSearch;
   });
 
+  const defaultBanner = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80";
+
   return (
     <div className="pb-24 space-y-12 bg-gray-50/50">
       
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (แสดงรูปแบนเนอร์ตามที่แอดมินตั้งค่า) */}
       <div className="relative h-[500px] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80" 
+            src={bannerUrl || defaultBanner} 
             alt="Hero Background" 
             className="object-cover w-full h-full"
           />
@@ -219,7 +244,7 @@ const PublicView = ({ units, themeConfig }) => {
                หาเช่า บ้าน | คอนโด 
             </h1>
             <div className="flex flex-wrap gap-3 mt-4 text-sm font-medium text-white/90 sm:text-base drop-shadow-md">
-              <span>คอนโดใกล้มหาลัย</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
+              <span>คอนโดหรู</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
               <span>เช่าบ้าน</span> • <span>ขายบ้าน</span> 
             </div>
           </div>
@@ -358,7 +383,7 @@ const UnitCard = ({ unit, themeConfig }) => {
       <div className="flex flex-col justify-between flex-grow p-6 space-y-4">
         <div>
           <span className={`inline-block px-3 py-1 rounded-lg text-xs font-bold ${themeConfig.light} ${themeConfig.text} mb-2`}>{unit.projectName || 'ไม่ระบุโครงการ'}</span>
-          <h3 className="text-xl font-bold text-gray-900">ห้อง {unit.unitNumber}</h3>
+          <h3 className="text-xl font-bold text-gray-900"> {unit.unitNumber}</h3>
           <p className="text-sm text-gray-500 mt-0.5">{unit.building ? `${unit.building} • ` : ''}ชั้น {unit.floor} • ขนาด {unit.size}</p>
         </div>
 
@@ -520,7 +545,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อโครงการ</label>
-                <select required name="projectName" value={formData.projectName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`}>
+                <select required name="projectName" value={formData.projectName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} focus:border-transparent text-sm`}>
                   <option value="">-- เลือกโครงการ --</option>
                   {PROJECT_LIST.map((zoneData, idx) => (
                     <optgroup key={idx} label={`โซน: ${zoneData.zone}`}>
@@ -531,34 +556,34 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">เลขห้อง</label>
-                <input required type="text" name="unitNumber" value={formData.unitNumber} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="unitNumber" value={formData.unitNumber} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">อาคาร</label>
-                <input type="text" name="building" value={formData.building} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="text" name="building" value={formData.building} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชั้น</label>
-                <input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ขนาด</label>
-                <input required type="text" name="size" value={formData.size} onChange={handleChange} placeholder="เช่น 35 ตร.ม." className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} placeholder="เช่น 35 ตร.ม." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ราคา/เดือน</label>
-                <input required type="text" name="price" value={formData.price} onChange={handleChange} placeholder="เช่น 15,000" className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="price" value={formData.price} onChange={handleChange} placeholder="เช่น 15,000" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">สถานะ</label>
-                <select name="status" value={formData.status} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`}>
+                <select name="status" value={formData.status} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} focus:border-transparent text-sm`}>
                   <option value="available">ว่าง (พร้อมเช่า)</option>
                   <option value="rented">มีผู้เช่าแล้ว</option>
                 </select>
               </div>
               <div className="sm:col-span-2">
                 <label className="block mb-1 text-xs font-bold text-gray-600">ลิงก์รายละเอียดห้องเพิ่มเติม (URL)</label>
-                <input type="url" name="detailUrl" value={formData.detailUrl || ''} onChange={handleChange} placeholder="https://..." className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="url" name="detailUrl" value={formData.detailUrl || ''} onChange={handleChange} placeholder="https://..." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
           </div>
@@ -569,19 +594,19 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อ-นามสกุล</label>
-                <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">เบอร์โทรศัพท์</label>
-                <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ID LINE</label>
-                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
                <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">LINK (โซเชียลเจ้าของ)</label>
-                <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
           </div>
@@ -697,8 +722,14 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [units, setUnits] = useState([]);
   
-  // เปลี่ยนมาใช้ State ปกติ แทนการดึงจาก LocalStorage ทันที
-  const [appConfig, setAppConfig] = useState({ companyName: 'TFS Asset', logoUrl: '', theme: 'blue', adminPassword: 'admin' });
+  const [appConfig, setAppConfig] = useState({ 
+    companyName: 'TFS Asset', 
+    logoUrl: '', 
+    bannerUrl: '', 
+    theme: 'blue', 
+    adminPassword: 'admin' 
+  });
+  
   const themeConfig = THEMES[appConfig.theme] || THEMES.blue;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -717,12 +748,13 @@ export default function App() {
       const { data: unitsData } = await supabase.from('units').select('*').order('id', { ascending: false });
       if (unitsData) setUnits(unitsData);
 
-      // 2. ดึงข้อมูลการตั้งค่าเว็บไซต์
+      // 2. ดึงข้อมูลการตั้งค่าเว็บไซต์ (รวมถึง bannerUrl)
       const { data: settingsData } = await supabase.from('site_settings').select('*').eq('id', '1').single();
       if (settingsData) {
         setAppConfig({
           companyName: settingsData.companyName || 'TFS Asset',
           logoUrl: settingsData.logoUrl || '',
+          bannerUrl: settingsData.bannerUrl || '',
           theme: settingsData.theme || 'blue',
           adminPassword: settingsData.adminPassword || 'admin'
         });
@@ -770,14 +802,14 @@ export default function App() {
     setEditingUnit(null);
   };
 
-  // ฟังก์ชันบันทึกการตั้งค่าลง Supabase แทน LocalStorage
   const handleSaveSettings = async (newConfig) => {
-    setAppConfig(newConfig); // เปลี่ยน UI ทันทีให้ผู้ใช้เห็น
+    setAppConfig(newConfig);
     
     if (isSupabaseConfigured) {
       let finalLogoUrl = newConfig.logoUrl;
+      let finalBannerUrl = newConfig.bannerUrl;
       
-      // ถ้ามีการอัปโหลดรูปโลโก้ใหม่ ให้เซฟลง Storage ด้วย
+      // อัปโหลดโลโก้ถ้ามีรูปใหม่
       if (newConfig.logoUrl && newConfig.logoUrl.startsWith('data:image')) {
         try {
           const res = await fetch(newConfig.logoUrl);
@@ -788,21 +820,34 @@ export default function App() {
             const { data } = supabase.storage.from('condo-images').getPublicUrl(fileName);
             finalLogoUrl = data.publicUrl;
           }
-        } catch (e) {
-          console.error("Upload logo error:", e);
-        }
+        } catch (e) { console.error("Upload logo error:", e); }
+      }
+
+      // อัปโหลดแบนเนอร์ถ้ามีรูปใหม่
+      if (newConfig.bannerUrl && newConfig.bannerUrl.startsWith('data:image')) {
+        try {
+          const res = await fetch(newConfig.bannerUrl);
+          const blob = await res.blob();
+          const fileName = `banner-${Date.now()}.jpg`;
+          const { error } = await supabase.storage.from('condo-images').upload(fileName, blob);
+          if (!error) {
+            const { data } = supabase.storage.from('condo-images').getPublicUrl(fileName);
+            finalBannerUrl = data.publicUrl;
+          }
+        } catch (e) { console.error("Upload banner error:", e); }
       }
 
       const dbConfig = {
         id: '1',
         companyName: newConfig.companyName,
         logoUrl: finalLogoUrl,
+        bannerUrl: finalBannerUrl,
         theme: newConfig.theme,
         adminPassword: newConfig.adminPassword
       };
 
       await supabase.from('site_settings').upsert(dbConfig);
-      setAppConfig({...newConfig, logoUrl: finalLogoUrl});
+      setAppConfig({...newConfig, logoUrl: finalLogoUrl, bannerUrl: finalBannerUrl});
     }
     setIsSettingsOpen(false);
   };
@@ -820,7 +865,6 @@ export default function App() {
   return (
     <div className="min-h-screen font-sans text-gray-900 bg-gray-50 selection:bg-blue-200">
       
-      {/* Navbar แบบพรีเมียม */}
       <nav className={`fixed w-full z-40 transition-all duration-300 ${isAdmin ? 'bg-white shadow-sm' : 'bg-transparent shadow-none'}`}>
         <div className="flex items-center justify-between h-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsAdmin(false)}>
@@ -857,7 +901,7 @@ export default function App() {
         {isAdmin ? (
           <AdminView units={units} themeConfig={themeConfig} isLoading={isLoading} onEdit={(u) => { setEditingUnit(u); setIsModalOpen(true); }} onDelete={(id) => setDeleteId(id)} onAddNew={() => { setEditingUnit(null); setIsModalOpen(true); }} onOpenSettings={() => setIsSettingsOpen(true)} />
         ) : (
-          <PublicView units={units} themeConfig={themeConfig} />
+          <PublicView units={units} themeConfig={themeConfig} bannerUrl={appConfig.bannerUrl} />
         )}
       </main>
 
