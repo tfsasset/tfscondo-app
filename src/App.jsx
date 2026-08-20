@@ -228,7 +228,7 @@ const PublicView = ({ units, themeConfig }) => {
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-2xl text-left">
             <h1 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl drop-shadow-lg">
-              เว็บประกาศ ขาย ให้เช่า คอนโด บ้าน ที่ดิน ยอดนิยม ดีที่สุด ลงประกาศฟรี
+               หาเช่า บ้าน คอนโด โกดัง ทาวน์โฮม
             </h1>
             <div className="flex flex-wrap gap-3 mt-4 text-sm font-medium text-white/90 sm:text-base drop-shadow-md">
               <span>คอนโดหรู</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
@@ -469,7 +469,7 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
                 <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-30`}>
                   <div className="font-semibold text-gray-800 mb-0.5">{unit.ownerName || '-'}</div>
                   <div className="font-medium text-gray-600">{unit.ownerPhone || '-'}</div>
-                  <div className="text-xs text-gray-400">{unit.ownerEmail || '-'}</div>
+                  <div className="text-xs text-gray-400">{unit.owneIDLINE || '-'}</div>
                 </td>
                 <td className="p-4">
                   <div className="flex justify-center gap-2">
@@ -594,8 +594,12 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                 <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">อีเมล</label>
-                <input type="email" name="ownerEmail" value={formData.ownerEmail} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <label className="block mb-1 text-xs font-bold text-gray-600">ID LINE</label>
+                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+              </div>
+               <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">LINK</label>
+                <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
           </div>
