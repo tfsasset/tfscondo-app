@@ -283,7 +283,7 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
               )}
             </div>
 
-            {/* Agent / Owner Card */}
+            {/* Agent Contact Card (Public view only shows Agent info) */}
             <div className="flex flex-col justify-between p-6 space-y-4 bg-white border-2 border-gray-100 shadow-sm rounded-2xl">
               <div>
                 <span className="block text-xs font-bold tracking-wider text-gray-400 uppercase">ราคาประกาศ</span>
@@ -297,23 +297,23 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
                 <h4 className="text-xs font-bold tracking-wider text-gray-400 uppercase">ข้อมูลเอเจ้นท์ / ผู้ติดต่อ</h4>
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-full ${themeConfig.light} ${themeConfig.text} font-bold text-lg flex items-center justify-center border ${themeConfig.border}`}>
-                    {(unit.ownerName || 'A').charAt(0)}
+                    {(unit.agentName || 'A').charAt(0)}
                   </div>
                   <div>
-                    <h5 className="font-bold text-gray-900">{unit.ownerName || 'เจ้าของทรัพย์'}</h5>
-                    <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5"><Icons.Phone /> {unit.ownerPhone || '-'}</p>
+                    <h5 className="font-bold text-gray-900">{unit.agentName || 'TFS Asset Agent'}</h5>
+                    <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5"><Icons.Phone /> {unit.agentPhone || '081-234-5678'}</p>
                   </div>
                 </div>
 
                 <div className="pt-2 space-y-2">
-                  {unit.ownerIDLINE && (
+                  {unit.agentIDLINE && (
                     <div className="flex items-center justify-between p-3 text-xs font-bold border bg-emerald-50 border-emerald-200 rounded-xl text-emerald-800">
-                      <span className="flex items-center gap-1.5"><Icons.Chat /> LINE ID: {unit.ownerIDLINE}</span>
+                      <span className="flex items-center gap-1.5"><Icons.Chat /> LINE ID: {unit.agentIDLINE}</span>
                       <span className="px-2.5 py-1 bg-emerald-600 text-white rounded-lg">แอดไลน์</span>
                     </div>
                   )}
-                  {unit.ownerLINK && (
-                    <a href={unit.ownerLINK} target="_blank" rel="noopener noreferrer" className="block text-center py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-xl transition-colors shadow-sm">
+                  {unit.agentLINK && (
+                    <a href={unit.agentLINK} target="_blank" rel="noopener noreferrer" className="block text-center py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-xl transition-colors shadow-sm">
                       ติดต่อผ่านลิงก์โซเชียล
                     </a>
                   )}
@@ -538,7 +538,7 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
     <div className="flex flex-col items-start justify-between gap-4 p-6 bg-white border border-gray-100 shadow-sm sm:flex-row sm:items-center rounded-3xl">
       <div>
         <h2 className="text-2xl font-extrabold text-gray-900">ระบบจัดการหลังบ้าน</h2>
-        <p className="mt-1 text-sm text-gray-500">จัดการข้อมูลประกาศและตั้งค่าเว็บไซต์</p>
+        <p className="mt-1 text-sm text-gray-500">จัดการข้อมูลประกาศ, เอเจ้นท์ และข้อมูลเจ้าของห้อง (เฉพาะแอดมิน)</p>
       </div>
       <div className="flex w-full gap-3 sm:w-auto">
         <button onClick={onOpenSettings} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border-2 border-gray-200 text-gray-700 font-bold hover:bg-gray-50 transition-colors">
@@ -552,21 +552,22 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
 
     <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-3xl">
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse min-w-[800px]">
+        <table className="w-full text-left border-collapse min-w-[950px]">
           <thead>
             <tr className="text-gray-600 border-b border-gray-100 bg-gray-50">
               <th className="p-4 text-sm font-bold">หัวข้อประกาศ / โครงการ</th>
               <th className="p-4 text-sm font-bold">ประเภท / โซน</th>
               <th className="p-4 text-sm font-bold">ราคา</th>
-              <th className={`p-4 font-bold text-sm ${themeConfig.light}`}>ข้อมูลเจ้าของ / เอเจ้นท์</th>
+              <th className={`p-4 font-bold text-sm ${themeConfig.light}`}>ข้อมูลเอเจ้นท์ (สาธารณะ)</th>
+              <th className="p-4 text-sm font-bold text-rose-800 bg-rose-50/50">🔒 ข้อมูลเจ้าของห้อง (ลับ - แอดมินเท่านั้น)</th>
               <th className="p-4 text-sm font-bold text-center">จัดการ</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {isLoading ? (
-              <tr><td colSpan="5" className="p-16 font-medium text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
+              <tr><td colSpan="6" className="p-16 font-medium text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
             ) : units.length === 0 ? (
-              <tr><td colSpan="5" className="p-16 font-medium text-center text-gray-400">ยังไม่มีประกาศในระบบ</td></tr>
+              <tr><td colSpan="6" className="p-16 font-medium text-center text-gray-400">ยังไม่มีประกาศในระบบ</td></tr>
             ) : units.map((unit) => (
               <tr key={unit.id} className="transition-colors hover:bg-gray-50/50">
                 <td className="p-4">
@@ -584,9 +585,14 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
                   <div className="mt-1 text-sm font-extrabold text-gray-900">฿{Number(unit.price || 0).toLocaleString()}</div>
                 </td>
                 <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-30`}>
-                  <div className="font-semibold text-gray-800 mb-0.5">{unit.ownerName || '-'}</div>
-                  <div className="font-medium text-gray-600">{unit.ownerPhone || '-'}</div>
-                  <div className="text-xs text-gray-400">LINE: {unit.ownerIDLINE || '-'}</div>
+                  <div className="font-semibold text-gray-800 mb-0.5">{unit.agentName || '-'}</div>
+                  <div className="font-medium text-gray-600">{unit.agentPhone || '-'}</div>
+                  <div className="text-xs text-gray-400">LINE: {unit.agentIDLINE || '-'}</div>
+                </td>
+                <td className="p-4 text-sm bg-rose-50/30">
+                  <div className="font-semibold text-rose-900 mb-0.5">{unit.ownerName || '-'}</div>
+                  <div className="font-medium text-rose-700">{unit.ownerPhone || '-'}</div>
+                  <div className="text-xs text-rose-600">LINE: {unit.ownerIDLINE || '-'}</div>
                 </td>
                 <td className="p-4">
                   <div className="flex justify-center gap-2">
@@ -607,8 +613,10 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
   const [formData, setFormData] = useState({ 
     title: '', propertyType: 'คอนโด', actionType: 'เช่า', zone: '', projectName: '', 
     floor: '', size: '', bedroom: '1 ห้องนอน', bathroom: '1',
-    status: 'available', price: '', ownerName: '', ownerPhone: '', 
-    ownerIDLINE: '', ownerLINK: '', detailUrl: '', images: [] 
+    status: 'available', price: '', 
+    agentName: '', agentPhone: '', agentIDLINE: '', agentLINK: '',
+    ownerName: '', ownerPhone: '', ownerIDLINE: '',
+    detailUrl: '', images: [] 
   });
   
   const [isCompressing, setIsCompressing] = useState(false);
@@ -619,8 +627,10 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
       setFormData(unitToEdit ? { ...unitToEdit, images: unitToEdit.images ? [...unitToEdit.images] : [] } : { 
         title: '', propertyType: 'คอนโด', actionType: 'เช่า', zone: '', projectName: '', 
         floor: '', size: '', bedroom: '1 ห้องนอน', bathroom: '1',
-        status: 'available', price: '', ownerName: '', ownerPhone: '', 
-        ownerIDLINE: '', ownerLINK: '', detailUrl: '', images: [] 
+        status: 'available', price: '', 
+        agentName: '', agentPhone: '', agentIDLINE: '', agentLINK: '',
+        ownerName: '', ownerPhone: '', ownerIDLINE: '',
+        detailUrl: '', images: [] 
       });
       setUploadStatus('');
     }
@@ -754,25 +764,44 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             </div>
           </div>
 
-          {/* ข้อมูลเจ้าของห้อง */}
+          {/* ข้อมูลเอเจ้นท์ / ผู้ติดต่อ (แสดงต่อสาธารณะ) */}
           <div className="pt-2 space-y-4">
-            <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลเอเจ้นท์ / ผู้ติดต่อ</h4>
+            <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลเอเจ้นท์ / ผู้ติดต่อ (แสดงหน้าเว็บให้ลูกค้าเห็น)</h4>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อผู้ติดต่อ</label>
-                <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อเอเจ้นท์ / ผู้ดูแล</label>
+                <input type="text" name="agentName" value={formData.agentName || ''} onChange={handleChange} placeholder="เช่น คุณเอเจ้นท์ใจดี" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">เบอร์โทรศัพท์</label>
-                <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <label className="block mb-1 text-xs font-bold text-gray-600">เบอร์โทรเอเจ้นท์</label>
+                <input type="text" name="agentPhone" value={formData.agentPhone || ''} onChange={handleChange} placeholder="081-234-5678" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">ID LINE</label>
-                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <label className="block mb-1 text-xs font-bold text-gray-600">LINE ID เอเจ้นท์</label>
+                <input type="text" name="agentIDLINE" value={formData.agentIDLINE || ''} onChange={handleChange} placeholder="line_id" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
               </div>
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">LINK เพิ่มเติม</label>
-                <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <label className="block mb-1 text-xs font-bold text-gray-600">LINK เพิ่มเติม (เช่น ลิงก์เพจ/แชท)</label>
+                <input type="url" name="agentLINK" value={formData.agentLINK || ''} onChange={handleChange} placeholder="https://..." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+              </div>
+            </div>
+          </div>
+
+          {/* ข้อมูลเจ้าของห้อง (ลับ - เห็นเฉพาะแอดมินเท่านั้น) */}
+          <div className="p-4 pt-2 space-y-4 border-2 border-rose-100 bg-rose-50/40 rounded-2xl">
+            <h4 className="pl-3 text-sm font-bold border-l-4 text-rose-900 border-rose-500">🔒 ข้อมูลเจ้าของห้อง (ลับ - เห็นเฉพาะแอดมินหลังบ้านเท่านั้น)</h4>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div>
+                <label className="block mb-1 text-xs font-bold text-rose-900">ชื่อเจ้าของห้อง</label>
+                <input type="text" name="ownerName" value={formData.ownerName || ''} onChange={handleChange} placeholder="ชื่อเจ้าของ..." className="w-full p-3 text-sm bg-white border outline-none border-rose-200 rounded-xl focus:border-rose-500" />
+              </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-rose-900">เบอร์โทรเจ้าของ</label>
+                <input type="text" name="ownerPhone" value={formData.ownerPhone || ''} onChange={handleChange} placeholder="เบอร์โทร..." className="w-full p-3 text-sm bg-white border outline-none border-rose-200 rounded-xl focus:border-rose-500" />
+              </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-rose-900">LINE เจ้าของ</label>
+                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE || ''} onChange={handleChange} placeholder="LINE ID..." className="w-full p-3 text-sm bg-white border outline-none border-rose-200 rounded-xl focus:border-rose-500" />
               </div>
             </div>
           </div>
