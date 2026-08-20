@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
@@ -107,9 +108,10 @@ const Icons = {
 // Components
 // ==========================================
 
-const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
+const SettingsModal = ({ isOpen, onClose, config, onSave, themeConfig }) => {
   const [formData, setFormData] = useState({ ...config });
   const [newPassword, setNewPassword] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -129,11 +131,13 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
     const dataToSave = { ...formData };
     if (newPassword.trim() !== '') dataToSave.adminPassword = newPassword;
-    onSave(dataToSave);
+    await onSave(dataToSave);
+    setIsSaving(false);
   };
 
   return (
@@ -146,7 +150,7 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
             <label className="block mb-2 text-sm font-bold text-gray-700">ชื่อโครงการ / บริษัท</label>
-            <input required type="text" value={formData.companyName} onChange={(e) => setFormData({...formData, companyName: e.target.value})} className="w-full p-3 border border-gray-300 outline-none rounded-xl focus:border-orange-500" />
+            <input required type="text" value={formData.companyName} onChange={(e) => setFormData({...formData, companyName: e.target.value})} className={`w-full p-3 border border-gray-300 outline-none rounded-xl focus:ring-2 ${themeConfig.ring} focus:border-transparent`} />
           </div>
           <div>
             <label className="block mb-2 text-sm font-bold text-gray-700">รูปภาพโลโก้</label>
@@ -162,7 +166,7 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
             <label className="block mb-2 text-sm font-bold text-gray-700">โทนสีของเว็บไซต์</label>
             <div className="grid grid-cols-2 gap-3">
               {Object.values(THEMES).map(theme => (
-                <div key={theme.id} onClick={() => setFormData({...formData, theme: theme.id})} className={`cursor-pointer border-2 rounded-xl p-3 flex items-center gap-2 transition-all ${formData.theme === theme.id ? theme.border + ' bg-orange-50 shadow-sm' : 'border-gray-100 hover:border-gray-200'}`}>
+                <div key={theme.id} onClick={() => setFormData({...formData, theme: theme.id})} className={`cursor-pointer border-2 rounded-xl p-3 flex items-center gap-2 transition-all ${formData.theme === theme.id ? theme.border + ' ' + theme.light : 'border-gray-100 hover:border-gray-200'}`}>
                   <div className={`w-5 h-5 rounded-full ${theme.bg}`}></div>
                   <span className="text-sm font-bold text-gray-700">{theme.name}</span>
                 </div>
@@ -171,11 +175,13 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
           </div>
           <div>
             <label className="block mb-2 text-sm font-bold text-gray-700">รหัสผ่านแอดมินใหม่ (เว้นว่างหากไม่เปลี่ยน)</label>
-            <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="ตั้งรหัสผ่านใหม่..." className="w-full p-3 border border-gray-300 outline-none rounded-xl focus:border-orange-500" />
+            <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="ตั้งรหัสผ่านใหม่..." className={`w-full p-3 border border-gray-300 outline-none rounded-xl focus:ring-2 ${themeConfig.ring} focus:border-transparent`} />
           </div>
           <div className="flex gap-3 pt-4 border-t border-gray-100">
             <button type="button" onClick={onClose} className="flex-1 py-3 font-bold text-gray-700 transition-colors border border-gray-300 rounded-xl hover:bg-gray-50">ยกเลิก</button>
-            <button type="submit" className="flex-1 py-3 font-bold text-white transition-colors bg-orange-500 shadow-lg rounded-xl hover:bg-orange-600 shadow-orange-500/30">บันทึก</button>
+            <button type="submit" disabled={isSaving} className={`flex-1 py-3 font-bold text-white transition-colors ${themeConfig.bg} shadow-lg rounded-xl ${themeConfig.hover} shadow-${themeConfig.id}-500/30 disabled:opacity-50`}>
+              {isSaving ? 'กำลังบันทึก...' : 'บันทึก'}
+            </button>
           </div>
         </form>
       </div>
@@ -196,7 +202,7 @@ const PublicView = ({ units, themeConfig }) => {
   return (
     <div className="pb-24 space-y-12 bg-gray-50/50">
       
-      {/* 1. Hero Section (แบบเต็มจอพร้อม Overlay) */}
+      {/* 1. Hero Section */}
       <div className="relative h-[500px] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img 
@@ -204,7 +210,6 @@ const PublicView = ({ units, themeConfig }) => {
             alt="Hero Background" 
             className="object-cover w-full h-full"
           />
-          {/* Gradient Overlay เพื่อให้ตัวหนังสืออ่านง่ายขึ้น */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
         </div>
 
@@ -221,11 +226,9 @@ const PublicView = ({ units, themeConfig }) => {
         </div>
       </div>
 
-      {/* 2. Floating Search Box (กล่องค้นหาลอยตัวแบบพรีเมียม) */}
+      {/* 2. Floating Search Box */}
       <div className="relative z-20 w-full max-w-6xl px-4 mx-auto -mt-24 sm:px-6 lg:px-8">
         <div className="overflow-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl">
-          
-          {/* แถบ Tabs ด้านบน */}
           <div className="flex overflow-x-auto border-b border-gray-100 scrollbar-hide">
             {SEARCH_TABS.map((tab) => (
               <button
@@ -241,8 +244,6 @@ const PublicView = ({ units, themeConfig }) => {
               </button>
             ))}
           </div>
-
-          {/* ช่องกรอกข้อมูลค้นหา */}
           <div className="flex flex-col items-center gap-4 p-4 sm:p-6 sm:flex-row">
             <div className="relative flex-grow w-full">
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
@@ -253,10 +254,10 @@ const PublicView = ({ units, themeConfig }) => {
                 placeholder="กรอกชื่อ ทำเล / โครงการ / รถไฟฟ้า..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-300 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow text-sm sm:text-base shadow-inner"
+                className={`w-full pl-12 pr-4 py-3.5 bg-white border border-gray-300 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent transition-shadow text-sm sm:text-base shadow-inner`}
               />
             </div>
-            <button className={`w-full sm:w-auto px-10 py-3.5 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-md shadow-blue-500/30 whitespace-nowrap`}>
+            <button className={`w-full sm:w-auto px-10 py-3.5 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-md shadow-${themeConfig.id}-500/30 whitespace-nowrap`}>
               ค้นหา
             </button>
           </div>
@@ -285,7 +286,7 @@ const PublicView = ({ units, themeConfig }) => {
         </div>
       </div>
 
-      {/* 4. ทำเลยอดนิยม (สไตล์รูปเทาตามตัวอย่าง) */}
+      {/* 4. ทำเลยอดนิยม */}
       <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-xl font-bold ${themeConfig.text}`}>ทำเลยอดนิยม</h2>
@@ -303,7 +304,7 @@ const PublicView = ({ units, themeConfig }) => {
         </div>
       </div>
 
-      {/* 5. Unit Listings Section (รายการประกาศ) */}
+      {/* 5. Unit Listings Section */}
       <div className="px-4 pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between pb-4 mb-8 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900">รายการประกาศล่าสุด</h2>
@@ -399,16 +400,6 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
       </div>
     </div>
 
-    {!isSupabaseConfigured && (
-      <div className={`p-4 ${themeConfig.light} border-l-4 ${themeConfig.border} rounded-r-2xl text-gray-800 flex items-start gap-3`}>
-        <div className={themeConfig.text}><Icons.Shield /></div>
-        <div>
-          <h4 className="font-bold">คำเตือนระบบ:</h4>
-          <p className="mt-1 text-sm text-gray-600">ยังไม่ได้เชื่อมต่อ Supabase ข้อมูลตอนนี้จะเป็นตัวจำลองและจะไม่ถูกบันทึกถาวร</p>
-        </div>
-      </div>
-    )}
-
     <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-3xl">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-[800px]">
@@ -451,7 +442,7 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
                 <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-30`}>
                   <div className="font-semibold text-gray-800 mb-0.5">{unit.ownerName || '-'}</div>
                   <div className="font-medium text-gray-600">{unit.ownerPhone || '-'}</div>
-                  <div className="text-xs text-gray-400">{unit.ownerIDLINE || '-'}</div>
+                  <div className="text-xs text-gray-400">LINE: {unit.ownerIDLINE || '-'}</div>
                 </td>
                 <td className="p-4">
                   <div className="flex justify-center gap-2">
@@ -529,7 +520,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อโครงการ</label>
-                <select required name="projectName" value={formData.projectName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} focus:border-transparent text-sm`}>
+                <select required name="projectName" value={formData.projectName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`}>
                   <option value="">-- เลือกโครงการ --</option>
                   {PROJECT_LIST.map((zoneData, idx) => (
                     <optgroup key={idx} label={`โซน: ${zoneData.zone}`}>
@@ -540,34 +531,34 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">เลขห้อง</label>
-                <input required type="text" name="unitNumber" value={formData.unitNumber} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="unitNumber" value={formData.unitNumber} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">อาคาร</label>
-                <input type="text" name="building" value={formData.building} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="text" name="building" value={formData.building} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชั้น</label>
-                <input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ขนาด</label>
-                <input required type="text" name="size" value={formData.size} onChange={handleChange} placeholder="เช่น 35 ตร.ม." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} placeholder="เช่น 35 ตร.ม." className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ราคา/เดือน</label>
-                <input required type="text" name="price" value={formData.price} onChange={handleChange} placeholder="เช่น 15,000" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="price" value={formData.price} onChange={handleChange} placeholder="เช่น 15,000" className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">สถานะ</label>
-                <select name="status" value={formData.status} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} focus:border-transparent text-sm`}>
+                <select name="status" value={formData.status} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`}>
                   <option value="available">ว่าง (พร้อมเช่า)</option>
                   <option value="rented">มีผู้เช่าแล้ว</option>
                 </select>
               </div>
               <div className="sm:col-span-2">
                 <label className="block mb-1 text-xs font-bold text-gray-600">ลิงก์รายละเอียดห้องเพิ่มเติม (URL)</label>
-                <input type="url" name="detailUrl" value={formData.detailUrl || ''} onChange={handleChange} placeholder="https://..." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="url" name="detailUrl" value={formData.detailUrl || ''} onChange={handleChange} placeholder="https://..." className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
           </div>
@@ -578,19 +569,19 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อ-นามสกุล</label>
-                <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">เบอร์โทรศัพท์</label>
-                <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ID LINE</label>
-                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
                <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">LINK (โซเชียลเจ้าของ)</label>
-                <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+                <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
           </div>
@@ -706,11 +697,8 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [units, setUnits] = useState([]);
   
-  const [appConfig, setAppConfig] = useState(() => {
-    const saved = localStorage.getItem('condoAppConfig');
-    return saved ? JSON.parse(saved) : { companyName: 'TFS Asset', logoUrl: '', theme: 'blue', adminPassword: 'admin' };
-  });
-
+  // เปลี่ยนมาใช้ State ปกติ แทนการดึงจาก LocalStorage ทันที
+  const [appConfig, setAppConfig] = useState({ companyName: 'TFS Asset', logoUrl: '', theme: 'blue', adminPassword: 'admin' });
   const themeConfig = THEMES[appConfig.theme] || THEMES.blue;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -719,25 +707,26 @@ export default function App() {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
-    fetchUnits();
+    fetchData();
   }, []);
 
-  const fetchUnits = async () => {
+  const fetchData = async () => {
     setIsLoading(true);
     if (isSupabaseConfigured) {
-      const { data, error } = await supabase.from('units').select('*').order('id', { ascending: false });
-      if (!error && data) {
-        setUnits(data);
-      } else {
-        console.error("Error fetching units:", error);
+      // 1. ดึงข้อมูลห้องพัก
+      const { data: unitsData } = await supabase.from('units').select('*').order('id', { ascending: false });
+      if (unitsData) setUnits(unitsData);
+
+      // 2. ดึงข้อมูลการตั้งค่าเว็บไซต์
+      const { data: settingsData } = await supabase.from('site_settings').select('*').eq('id', '1').single();
+      if (settingsData) {
+        setAppConfig({
+          companyName: settingsData.companyName || 'TFS Asset',
+          logoUrl: settingsData.logoUrl || '',
+          theme: settingsData.theme || 'blue',
+          adminPassword: settingsData.adminPassword || 'admin'
+        });
       }
-    } else {
-      setUnits([{
-        id: "mock1", projectName: "IDEO CHULA SAMYAN", unitNumber: "A-101", building: "ตึก A", floor: 12, size: "35 ตร.ม.", 
-        status: "available", price: "15,000", ownerName: "สมชาย ใจดี", ownerPhone: "081-234-5678", ownerIDLINE: "somchai_line", ownerLINK: "",
-        detailUrl: "https://example.com",
-        images: ["https://placehold.co/600x400/e2e8f0/475569?text=IDEO+CHULA"]
-      }]);
     }
     setIsLoading(false);
   };
@@ -755,13 +744,11 @@ export default function App() {
             const blob = await res.blob();
             const fileName = `room-${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
             
-            const { data, error } = await supabase.storage.from('condo-images').upload(fileName, blob);
+            const { error } = await supabase.storage.from('condo-images').upload(fileName, blob);
             
             if (!error) {
               const { data: publicUrlData } = supabase.storage.from('condo-images').getPublicUrl(fileName);
               finalImageUrls.push(publicUrlData.publicUrl);
-            } else {
-              console.error("Upload error:", error);
             }
           } catch (e) {
             console.error("Error converting image:", e);
@@ -776,43 +763,55 @@ export default function App() {
       
       if (!dataToSave.id) dataToSave.id = Date.now().toString();
       
-      const { error: dbError } = await supabase.from('units').upsert(dataToSave);
-      
-      if (!dbError) {
-        await fetchUnits();
-      } else {
-        console.error("DB Save error:", dbError);
-      }
-    } else {
-      dataToSave.id = editingUnit ? editingUnit.id : Date.now().toString();
-      if (editingUnit) {
-        setUnits(units.map(u => u.id === editingUnit.id ? dataToSave : u));
-      } else {
-        setUnits([dataToSave, ...units]);
-      }
+      await supabase.from('units').upsert(dataToSave);
+      await fetchData();
     }
-
     setIsModalOpen(false);
     setEditingUnit(null);
   };
 
-  const handleSaveSettings = (newConfig) => {
-    setAppConfig(newConfig);
-    localStorage.setItem('condoAppConfig', JSON.stringify(newConfig));
+  // ฟังก์ชันบันทึกการตั้งค่าลง Supabase แทน LocalStorage
+  const handleSaveSettings = async (newConfig) => {
+    setAppConfig(newConfig); // เปลี่ยน UI ทันทีให้ผู้ใช้เห็น
+    
+    if (isSupabaseConfigured) {
+      let finalLogoUrl = newConfig.logoUrl;
+      
+      // ถ้ามีการอัปโหลดรูปโลโก้ใหม่ ให้เซฟลง Storage ด้วย
+      if (newConfig.logoUrl && newConfig.logoUrl.startsWith('data:image')) {
+        try {
+          const res = await fetch(newConfig.logoUrl);
+          const blob = await res.blob();
+          const fileName = `logo-${Date.now()}.png`;
+          const { error } = await supabase.storage.from('condo-images').upload(fileName, blob);
+          if (!error) {
+            const { data } = supabase.storage.from('condo-images').getPublicUrl(fileName);
+            finalLogoUrl = data.publicUrl;
+          }
+        } catch (e) {
+          console.error("Upload logo error:", e);
+        }
+      }
+
+      const dbConfig = {
+        id: '1',
+        companyName: newConfig.companyName,
+        logoUrl: finalLogoUrl,
+        theme: newConfig.theme,
+        adminPassword: newConfig.adminPassword
+      };
+
+      await supabase.from('site_settings').upsert(dbConfig);
+      setAppConfig({...newConfig, logoUrl: finalLogoUrl});
+    }
     setIsSettingsOpen(false);
   };
 
   const confirmDelete = async () => {
     if (deleteId !== null) {
       if (isSupabaseConfigured) {
-        const { error } = await supabase.from('units').delete().eq('id', deleteId);
-        if (!error) {
-          await fetchUnits();
-        } else {
-          console.error("Delete error:", error);
-        }
-      } else {
-        setUnits(units.filter(u => u.id !== deleteId));
+        await supabase.from('units').delete().eq('id', deleteId);
+        await fetchData();
       }
       setDeleteId(null);
     }
@@ -821,8 +820,8 @@ export default function App() {
   return (
     <div className="min-h-screen font-sans text-gray-900 bg-gray-50 selection:bg-blue-200">
       
-      {/* Navbar แบบพรีเมียม (ไม่มีพื้นหลังสีขาวล้วน) */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${isAdmin ? 'bg-white shadow-sm' : 'bg-transparent shadow-none'}`}>
+      {/* Navbar แบบพรีเมียม */}
+      <nav className={`fixed w-full z-40 transition-all duration-300 ${isAdmin ? 'bg-white shadow-sm' : 'bg-transparent shadow-none'}`}>
         <div className="flex items-center justify-between h-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsAdmin(false)}>
             {appConfig.logoUrl ? (
@@ -862,7 +861,7 @@ export default function App() {
         )}
       </main>
 
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} config={appConfig} onSave={handleSaveSettings} />
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} config={appConfig} onSave={handleSaveSettings} themeConfig={themeConfig} />
       <UnitFormModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditingUnit(null); }} onSave={handleSave} unitToEdit={editingUnit} themeConfig={themeConfig} />
       <DeleteConfirmModal isOpen={deleteId !== null} onClose={() => setDeleteId(null)} onConfirm={confirmDelete} />
       <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} themeConfig={themeConfig} expectedPassword={appConfig.adminPassword} onLogin={() => { setIsAuthenticated(true); setIsAdmin(true); setShowLogin(false); }} />
