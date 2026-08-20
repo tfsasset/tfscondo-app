@@ -219,7 +219,7 @@ const PublicView = ({ units, themeConfig }) => {
                หาเช่า บ้าน | คอนโด 
             </h1>
             <div className="flex flex-wrap gap-3 mt-4 text-sm font-medium text-white/90 sm:text-base drop-shadow-md">
-              <span>คอนโดหรู</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
+              <span>คอนโดใกล้มหาลัย</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
               <span>เช่าบ้าน</span> • <span>ขายบ้าน</span> 
             </div>
           </div>
@@ -421,7 +421,7 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
               <tr key={unit.id} className="transition-colors hover:bg-gray-50/50">
                 <td className="p-4">
                   <div className={`font-bold ${themeConfig.text} text-sm mb-0.5`}>{unit.projectName}</div>
-                  <div className="font-extrabold text-gray-900">ห้อง {unit.unitNumber}</div>
+                  <div className="font-extrabold text-gray-900"> {unit.unitNumber}</div>
                   <div className="text-xs text-gray-400">{unit.building}</div>
                   {unit.detailUrl && (
                     <a href={unit.detailUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-1 text-xs font-medium text-blue-500 hover:underline">
