@@ -2,9 +2,10 @@
 import { createClient } from '@supabase/supabase-js'
 
 // ไปเอา URL และ KEY มาจากเมนู Project Settings > API ในเว็บ Supabase
-const supabaseUrl =  'https://atbyudnixujiwlxepchh.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0Ynl1ZG5peHVqaXdseGVwY2hoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNTM0MDQsImV4cCI6MjEwMjcyOTQwNH0.zaZOk2dJzXwip3n9DxBXDObELI5XFSUoEe2NzdfdD1c'
+const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_leBQo88PZWYV800h4C6dUA_Oj4gMzMm';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 
