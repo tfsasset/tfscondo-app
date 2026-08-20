@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
@@ -63,7 +62,7 @@ const POPULAR_ZONES = [
   { name: "พระราม 9 ห้วยขวาง รัชดา", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
 ];
 
-const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
+const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'ประกันภัย ให้เช่าหายห่วง', 'ทรัพย์ใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
 const PROPERTY_CATEGORIES = [
   { name: 'คอนโด', icon: '🏢' },
   { name: 'บ้านเดี่ยว', icon: '🏡' },
@@ -338,22 +337,22 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
       <div className="relative h-[500px] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img src={bannerUrl || defaultBanner} alt="Hero Background" className="object-cover w-full h-full" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
         </div>
 
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
-            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-             FIND YOUR PERFECT PROPERTY <span className="font-normal text-white/80"></span> 
+           <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+            FIND YOUR PERFECT PROPERTY <span className="font-normal text-white/80"></span> 
             </h1>
             <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-               Thailand Properties for Rent & Sale
+            Thailand Properties for Rent & Sale
             </p>
           </div>
         </div>
       </div>
 
-      <div className="relative z-20 w-full max-w-6xl px-4 mx-auto -mt-24 sm:px-6 lg:px-8">
+      <div className="relative w-full max-w-6xl px-4 mx-auto -mt-24 z-25 sm:px-6 lg:px-8">
         <div className="overflow-hidden border shadow-2xl bg-white/95 backdrop-blur-xl border-white/40 shadow-black/10 rounded-3xl">
           <div className="flex px-4 pt-2 overflow-x-auto border-b border-gray-100 scrollbar-hide">
             {SEARCH_TABS.map((tab) => (
@@ -370,7 +369,7 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
               </button>
             ))}
           </div>
-          <div className="flex flex-col items-center gap-4 p-6 sm:p-8 sm:flex-row">
+          <div className="flex flex-col items-center gap-4 p-6 sm:p-10 sm:flex-row">
             <div className="relative flex-grow w-full">
               <div className="absolute inset-y-0 left-0 flex items-center pl-6 text-gray-400 pointer-events-none"><Icons.Search /></div>
               <input 
@@ -378,10 +377,10 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
                 placeholder="กรอกชื่อ ทำเล / โครงการ / รถไฟฟ้า..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full py-4 pr-6 text-base text-gray-900 placeholder-gray-400 transition-all border rounded-full shadow-inner pl-14 bg-gray-50/80 hover:bg-gray-50 border-gray-200/80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
+                className="w-full py-5 pr-6 text-base text-gray-900 placeholder-gray-400 transition-all border rounded-full shadow-inner pl-14 bg-gray-50/85 hover:bg-gray-50 border-gray-200/90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
               />
             </div>
-            <button className={`w-full sm:w-auto px-12 py-4 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-lg shadow-blue-500/25 whitespace-nowrap text-base`}>
+            <button className={`w-full sm:w-auto px-12 py-5 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-lg shadow-blue-500/25 whitespace-nowrap text-base`}>
               ค้นหา
             </button>
           </div>
@@ -913,22 +912,29 @@ export default function App() {
 
   const fetchData = async () => {
     setIsLoading(true);
-    if (isSupabaseConfigured) {
-      const { data: unitsData } = await supabase.from('units').select('*').order('id', { ascending: false });
-      if (unitsData) setUnits(unitsData);
+    try {
+      if (isSupabaseConfigured) {
+        const { data: unitsData, error: unitsError } = await supabase.from('units').select('*').order('id', { ascending: false });
+        if (!unitsError && unitsData) {
+          setUnits(unitsData);
+        }
 
-      const { data: settingsData } = await supabase.from('site_settings').select('*').eq('id', '1').single();
-      if (settingsData) {
-        setAppConfig({
-          companyName: settingsData.companyName || 'TFS Asset',
-          logoUrl: settingsData.logoUrl || '',
-          bannerUrl: settingsData.bannerUrl || '',
-          theme: settingsData.theme || 'blue',
-          adminPassword: settingsData.adminPassword || 'admin'
-        });
+        const { data: settingsData, error: settingsError } = await supabase.from('site_settings').select('*').eq('id', '1').maybeSingle();
+        if (!settingsError && settingsData) {
+          setAppConfig({
+            companyName: settingsData.companyName || 'TFS Asset',
+            logoUrl: settingsData.logoUrl || '',
+            bannerUrl: settingsData.bannerUrl || '',
+            theme: settingsData.theme || 'blue',
+            adminPassword: settingsData.adminPassword || 'admin'
+          });
+        }
       }
+    } catch (err) {
+      console.error("Fetch data error on refresh:", err);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleSave = async (unitData, setUploadStatus) => {
@@ -1037,7 +1043,7 @@ export default function App() {
               <img src={appConfig.logoUrl} alt="Logo" className="object-contain h-10 drop-shadow-md" />
             ) : (
               <div className={`w-10 h-10 ${themeConfig.bg} text-white rounded-xl flex items-center justify-center font-black text-xl shadow-lg`}>
-                {appConfig.companyName.charAt(0)}
+                {appConfig.companyName ? appConfig.companyName.charAt(0) : 'T'}
               </div>
             )}
             <span className={`text-xl font-black tracking-tight drop-shadow-sm ${isAdmin ? 'text-gray-900' : 'text-white'}`}>{appConfig.companyName}</span>
