@@ -1,9 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 
-// ⚠️ หมายเหตุ: สำหรับการรันบนคอมพิวเตอร์จริง ให้เอาเครื่องหมาย // บรรทัดล่างนี้ออกนะครับ
-// import { createClient } from '@supabase/supabase-js';
-
 // สร้างตัวจำลองเพื่อไม่ให้หน้าต่างพรีวิวขัดข้อง
 const createClient = (url, key) => ({
   from: () => ({
@@ -22,7 +19,7 @@ const createClient = (url, key) => ({
 // ==========================================
 // ⚠️ ใส่ URL และ KEY ของ Supabase ของคุณที่นี่
 // ==========================================
-const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co'; 
+const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_leBQo88PZWYV800h4C6dUA_Oj4gMzMm';
 
 // สร้างตัวเชื่อมต่อฐานข้อมูล
@@ -78,30 +75,48 @@ const PROJECT_LIST = [
   }
 ];
 
+const POPULAR_ZONES = [
+  { name: "พระราม 9", bg: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" },
+  { name: "อโศก ทองหล่อ", bg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" },
+  { name: "รัชดา ห้วยขวาง", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" },
+  { name: "สาทร", bg: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=600&q=80" }
+];
+
+const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'ประกันภัย ให้เช่าหายห่วง', 'ทรัพย์ใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
+const PROPERTY_CATEGORIES = [
+  { name: 'คอนโด', icon: '🏢' },
+  { name: 'บ้านเดี่ยว', icon: '🏡' },
+  { name: 'ทาวน์โฮม', icon: '🏘️' },
+  { name: 'บ้านแฝด', icon: '🏠' },
+  { name: 'ที่ดิน', icon: '🗺️' },
+  { name: 'ตึกแถว', icon: '🏬' },
+  { name: 'สำนักงาน', icon: '🏢' },
+  { name: 'โฮมออฟฟิศ', icon: '💻' },
+  { name: 'ร้านค้า', icon: '🏪' },
+];
+
 const THEMES = {
   blue: { id: 'blue', name: 'สีฟ้า', bg: 'bg-blue-600', hover: 'hover:bg-blue-700', text: 'text-blue-600', light: 'bg-blue-50', border: 'border-blue-600', ring: 'focus:ring-blue-500' },
   green: { id: 'green', name: 'สีเขียว', bg: 'bg-emerald-600', hover: 'hover:bg-emerald-700', text: 'text-emerald-600', light: 'bg-emerald-50', border: 'border-emerald-600', ring: 'focus:ring-emerald-500' },
   rose: { id: 'rose', name: 'สีแดง/ชมพู', bg: 'bg-rose-600', hover: 'hover:bg-rose-700', text: 'text-rose-600', light: 'bg-rose-50', border: 'border-rose-600', ring: 'focus:ring-rose-500' },
   purple: { id: 'purple', name: 'สีม่วง', bg: 'bg-purple-600', hover: 'hover:bg-purple-700', text: 'text-purple-600', light: 'bg-purple-50', border: 'border-purple-600', ring: 'focus:ring-purple-500' },
-  pastelPink: { id: 'pastelPink', name: 'พาสเทลชมพู', bg: 'bg-pink-400', hover: 'hover:bg-pink-500', text: 'text-pink-600', light: 'bg-pink-50', border: 'border-pink-400', ring: 'focus:ring-pink-400' },
-  pastelBlue: { id: 'pastelBlue', name: 'พาสเทลฟ้า', bg: 'bg-sky-400', hover: 'hover:bg-sky-500', text: 'text-sky-600', light: 'bg-sky-50', border: 'border-sky-400', ring: 'focus:ring-sky-400' },
-  pastelGreen: { id: 'pastelGreen', name: 'พาสเทลเขียว', bg: 'bg-teal-400', hover: 'hover:bg-teal-500', text: 'text-teal-600', light: 'bg-teal-50', border: 'border-teal-400', ring: 'focus:ring-teal-400' },
-  pastelPeach: { id: 'pastelPeach', name: 'พาสเทลพีช', bg: 'bg-orange-400', hover: 'hover:bg-orange-500', text: 'text-orange-600', light: 'bg-orange-50', border: 'border-orange-400', ring: 'focus:ring-orange-400' }
+  orange: { id: 'orange', name: 'สีส้ม', bg: 'bg-orange-500', hover: 'hover:bg-orange-600', text: 'text-orange-600', light: 'bg-orange-50', border: 'border-orange-500', ring: 'focus:ring-orange-500' },
 };
 
 const Icons = {
-  User: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-  Shield: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-  Edit: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-  Trash: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>,
-  Plus: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
-  Close: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
-  Warning: () => <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
-  ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>,
-  ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>,
-  Settings: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>,
-  Lock: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>,
-  Image: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+  User: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
+  Shield: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+  Edit: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>,
+  Trash: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
+  Plus: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>,
+  Close: () => <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>,
+  Search: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>,
+  ChevronLeft: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>,
+  ChevronRight: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
+  Settings: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
+  Lock: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
+  Link: () => <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>,
+  Building: () => <svg className="w-16 h-16 mx-auto text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
 };
 
 // ==========================================
@@ -112,7 +127,7 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
   const [formData, setFormData] = useState({ ...config });
   const [newPassword, setNewPassword] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setFormData({ ...config });
       setNewPassword('');
@@ -138,51 +153,196 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl animate-in zoom-in-95 duration-200 overflow-hidden">
-        <div className="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50">
-          <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2"><Icons.Settings /> ตั้งค่าเว็บไซต์</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1 rounded-md hover:bg-gray-200"><Icons.Close /></button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
+          <h2 className="flex items-center gap-2 text-xl font-extrabold text-gray-800"><Icons.Settings /> ตั้งค่าเว็บไซต์</h2>
+          <button onClick={onClose} className="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-200"><Icons.Close /></button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">ชื่อโครงการ / บริษัท</label>
-            <input required type="text" value={formData.companyName} onChange={(e) => setFormData({...formData, companyName: e.target.value})} className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-gray-500" />
+            <label className="block mb-2 text-sm font-bold text-gray-700">ชื่อโครงการ / บริษัท</label>
+            <input required type="text" value={formData.companyName} onChange={(e) => setFormData({...formData, companyName: e.target.value})} className="w-full p-3 border border-gray-300 outline-none rounded-xl focus:border-orange-500" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600 mb-1">รูปภาพโลโก้</label>
-            <div className="flex items-center gap-3">
-              <label className="cursor-pointer bg-gray-50 border border-gray-300 hover:bg-gray-100 text-gray-700 px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
-                <Icons.Image /> อัปโหลดรูปภาพ
+            <label className="block mb-2 text-sm font-bold text-gray-700">รูปภาพโลโก้</label>
+            <div className="flex items-center gap-4">
+              <label className="px-4 py-2 text-sm font-bold text-gray-700 transition-colors bg-gray-100 cursor-pointer hover:bg-gray-200 rounded-xl">
+                อัปโหลดรูปภาพ
                 <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
               </label>
+              {formData.logoUrl && <img src={formData.logoUrl} alt="Logo Preview" className="object-contain h-10" />}
             </div>
-            {formData.logoUrl && (
-              <div className="mt-3 relative inline-block">
-                 <img src={formData.logoUrl} alt="Logo" className="h-12 object-contain rounded border border-gray-200 p-2 bg-gray-50 shadow-sm" />
-                 <button type="button" onClick={() => setFormData({...formData, logoUrl: ''})} className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-0.5 shadow-sm transition-colors"><Icons.Close /></button>
-              </div>
-            )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600 mb-2">โทนสีของเว็บไซต์</label>
+            <label className="block mb-2 text-sm font-bold text-gray-700">โทนสีของเว็บไซต์</label>
             <div className="grid grid-cols-2 gap-3">
               {Object.values(THEMES).map(theme => (
-                <div key={theme.id} onClick={() => setFormData({...formData, theme: theme.id})} className={`cursor-pointer border-2 rounded-lg p-3 flex items-center gap-2 transition-all ${formData.theme === theme.id ? theme.border + ' bg-gray-50 shadow-sm' : 'border-gray-100 hover:border-gray-200'}`}>
-                  <div className={`w-5 h-5 rounded-full ${theme.bg}`}></div><span className="text-sm font-medium text-gray-700">{theme.name}</span>
+                <div key={theme.id} onClick={() => setFormData({...formData, theme: theme.id})} className={`cursor-pointer border-2 rounded-xl p-3 flex items-center gap-2 transition-all ${formData.theme === theme.id ? theme.border + ' bg-orange-50 shadow-sm' : 'border-gray-100 hover:border-gray-200'}`}>
+                  <div className={`w-5 h-5 rounded-full ${theme.bg}`}></div>
+                  <span className="text-sm font-bold text-gray-700">{theme.name}</span>
                 </div>
               ))}
             </div>
           </div>
-          <div className="pt-4 border-t border-gray-100">
-            <label className="block text-sm font-medium text-gray-600 mb-1">รหัสผ่านแอดมินใหม่ (เว้นว่างหากไม่เปลี่ยน)</label>
-            <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="ตั้งรหัสผ่านใหม่..." className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:border-gray-500" />
+          <div>
+            <label className="block mb-2 text-sm font-bold text-gray-700">รหัสผ่านแอดมินใหม่ (เว้นว่างหากไม่เปลี่ยน)</label>
+            <input type="text" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="ตั้งรหัสผ่านใหม่..." className="w-full p-3 border border-gray-300 outline-none rounded-xl focus:border-orange-500" />
           </div>
-          <div className="pt-4 flex gap-3">
-            <button type="button" onClick={onClose} className="flex-1 py-2.5 rounded-lg text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium transition-colors">ยกเลิก</button>
-            <button type="submit" className={`flex-1 py-2.5 rounded-lg text-white font-medium transition-colors ${THEMES[formData.theme].bg} ${THEMES[formData.theme].hover} shadow-sm`}>บันทึก</button>
+          <div className="flex gap-3 pt-4 border-t border-gray-100">
+            <button type="button" onClick={onClose} className="flex-1 py-3 font-bold text-gray-700 transition-colors border border-gray-300 rounded-xl hover:bg-gray-50">ยกเลิก</button>
+            <button type="submit" className="flex-1 py-3 font-bold text-white transition-colors bg-orange-500 shadow-lg rounded-xl hover:bg-orange-600 shadow-orange-500/30">บันทึก</button>
           </div>
         </form>
+      </div>
+    </div>
+  );
+};
+
+const PublicView = ({ units, themeConfig }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState('หาซื้อ');
+  const [selectedZone, setSelectedZone] = useState('ทั้งหมด');
+
+  const filteredUnits = units.filter(unit => {
+    const matchSearch = (unit.projectName || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                        (unit.unitNumber || '').toLowerCase().includes(searchTerm.toLowerCase());
+    return matchSearch;
+  });
+
+  return (
+    <div className="pb-24 space-y-12 bg-gray-50/50">
+      
+      {/* 1. Hero Section (แบบเต็มจอพร้อม Overlay) */}
+      <div className="relative h-[500px] w-full flex items-center justify-center">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80" 
+            alt="Hero Background" 
+            className="object-cover w-full h-full"
+          />
+          {/* Gradient Overlay เพื่อให้ตัวหนังสืออ่านง่ายขึ้น */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="max-w-2xl text-left">
+            <h1 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl drop-shadow-lg">
+              เว็บประกาศ ขาย ให้เช่า คอนโด บ้าน ที่ดิน ยอดนิยม ดีที่สุด ลงประกาศฟรี
+            </h1>
+            <div className="flex flex-wrap gap-3 mt-4 text-sm font-medium text-white/90 sm:text-base drop-shadow-md">
+              <span>คอนโดหรู</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
+              <span>เช่าบ้าน</span> • <span>ขายบ้าน</span> • <span>ขายที่ดิน</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Floating Search Box (กล่องค้นหาลอยตัวแบบพรีเมียม) */}
+      <div className="relative z-20 w-full max-w-6xl px-4 mx-auto -mt-24 sm:px-6 lg:px-8">
+        <div className="overflow-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl">
+          
+          {/* แถบ Tabs ด้านบน */}
+          <div className="flex overflow-x-auto border-b border-gray-100 scrollbar-hide">
+            {SEARCH_TABS.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`whitespace-nowrap px-6 py-4 text-sm font-semibold transition-colors border-b-2 ${
+                  activeTab === tab 
+                    ? `border-${themeConfig.id}-500 text-${themeConfig.id}-600 bg-${themeConfig.id}-50/30` 
+                    : 'border-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* ช่องกรอกข้อมูลค้นหา */}
+          <div className="flex flex-col items-center gap-4 p-4 sm:p-6 sm:flex-row">
+            <div className="relative flex-grow w-full">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
+                <Icons.Search />
+              </div>
+              <input 
+                type="text" 
+                placeholder="กรอกชื่อ ทำเล / โครงการ / รถไฟฟ้า..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-300 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow text-sm sm:text-base shadow-inner"
+              />
+            </div>
+            <button className={`w-full sm:w-auto px-10 py-3.5 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-md shadow-blue-500/30 whitespace-nowrap`}>
+              ค้นหา
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. หมวดหมู่ประเภทอสังหาฯ */}
+      <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className={`text-xl font-bold ${themeConfig.text}`}>ประเภทอสังหาฯ</h2>
+          <div className="flex gap-2">
+            <button className="flex items-center justify-center w-8 h-8 text-gray-500 border border-gray-200 rounded-full hover:bg-gray-50"><Icons.ChevronLeft /></button>
+            <button className="flex items-center justify-center w-8 h-8 text-gray-500 border border-gray-200 rounded-full hover:bg-gray-50"><Icons.ChevronRight /></button>
+          </div>
+        </div>
+        
+        <div className="flex gap-6 py-2 overflow-x-auto scrollbar-hide sm:justify-center">
+          {PROPERTY_CATEGORIES.map((cat, idx) => (
+            <div key={idx} className="flex flex-col items-center gap-3 min-w-[70px] cursor-pointer group">
+              <div className={`w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-gray-100 group-hover:${themeConfig.light} group-hover:${themeConfig.border} group-hover:-translate-y-1 transition-all duration-300`}>
+                {cat.icon}
+              </div>
+              <span className={`text-xs font-medium text-gray-600 group-hover:${themeConfig.text}`}>{cat.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 4. ทำเลยอดนิยม (สไตล์รูปเทาตามตัวอย่าง) */}
+      <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className={`text-xl font-bold ${themeConfig.text}`}>ทำเลยอดนิยม</h2>
+          <span className={`${themeConfig.text} text-sm font-semibold cursor-pointer hover:underline flex items-center gap-1`}>ทำเลอื่นๆ <Icons.ChevronRight /></span>
+        </div>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {POPULAR_ZONES.map((zone, idx) => (
+            <div key={idx} onClick={() => setSearchTerm(zone.name)} className="relative h-56 overflow-hidden bg-gray-400 border border-gray-200 shadow-sm cursor-pointer group rounded-xl">
+              {/* ใช้สีเทาเป็นพื้นหลังแทนรูปภาพชั่วคราวเพื่อให้เหมือน Mockup */}
+              <div className="absolute inset-0 flex flex-col justify-end p-4 text-center bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+                <h3 className="text-lg font-bold text-white">{zone.name}</h3>
+                <p className="text-gray-200 text-[10px] mt-1 line-clamp-1">ขาย เช่า คอนโด บ้าน ที่ดิน {zone.name}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 5. Unit Listings Section (รายการประกาศ) */}
+      <div className="px-4 pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between pb-4 mb-8 border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900">รายการประกาศล่าสุด</h2>
+          <span className="text-sm font-medium px-4 py-1.5 bg-gray-100 rounded-full text-gray-600">พบ {filteredUnits.length} รายการ</span>
+        </div>
+
+        {filteredUnits.length === 0 ? (
+          <div className="p-16 text-center bg-white border border-gray-100 shadow-sm rounded-3xl">
+            <Icons.Building />
+            <p className="mt-4 text-lg font-medium text-gray-500">ไม่พบข้อมูลห้องพักที่คุณค้นหา</p>
+            <button onClick={() => setSearchTerm('')} className={`mt-4 ${themeConfig.text} font-semibold hover:underline`}>ดูประกาศทั้งหมด</button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredUnits.map((unit) => (
+              <div key={unit.id} className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-200 shadow-sm rounded-2xl hover:shadow-xl group">
+                <UnitCard unit={unit} themeConfig={themeConfig} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -191,127 +351,130 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
 const UnitCard = ({ unit, themeConfig }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = unit.images && unit.images.length > 0 ? unit.images : ['https://placehold.co/600x400/e2e8f0/475569?text=No+Image'];
+
   const nextImage = (e) => { e.stopPropagation(); setCurrentImageIndex((prev) => (prev + 1) % images.length); };
   const prevImage = (e) => { e.stopPropagation(); setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length); };
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border border-gray-100 flex flex-col">
-      <div className="h-48 overflow-hidden relative group bg-gray-100">
-        <img src={images[currentImageIndex]} alt={`ห้อง ${unit.unitNumber}`} className="w-full h-full object-cover transition-all duration-300" />
+    <>
+      <div className="relative h-64 overflow-hidden">
+        <img src={images[currentImageIndex]} alt={`ห้อง ${unit.unitNumber}`} className="object-cover w-full h-full transition-all duration-500 group-hover:scale-105" />
         {images.length > 1 && (
           <>
-            <div className="absolute inset-0 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button onClick={prevImage} className="p-1 rounded-full bg-black/40 text-white hover:bg-black/60"><Icons.ChevronLeft /></button>
-              <button onClick={nextImage} className="p-1 rounded-full bg-black/40 text-white hover:bg-black/60"><Icons.ChevronRight /></button>
-            </div>
-            <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">
+            <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors"><Icons.ChevronLeft /></button>
+            <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/30 hover:bg-black/50 text-white transition-colors"><Icons.ChevronRight /></button>
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
               {images.map((_, idx) => <div key={idx} className={`w-1.5 h-1.5 rounded-full ${idx === currentImageIndex ? 'bg-white' : 'bg-white/50'}`} />)}
             </div>
           </>
         )}
-        <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold shadow-sm ${unit.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-          {unit.status === 'available' ? 'ว่าง' : 'มีผู้เช่า'}
+        <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold shadow-md ${unit.status === 'available' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
+          {unit.status === 'available' ? 'ว่างพร้อมเช่า' : 'ไม่ว่าง'}
         </div>
       </div>
-      <div className="p-5 flex-1 flex flex-col">
-        <div className="mb-2">
-          <span className={`inline-block px-2 py-1 rounded text-xs font-bold ${themeConfig.light} ${themeConfig.text} mb-2`}>{unit.projectName || 'ไม่ระบุโครงการ'}</span>
+      <div className="flex flex-col justify-between flex-grow p-6 space-y-4">
+        <div>
+          <span className={`inline-block px-3 py-1 rounded-lg text-xs font-bold ${themeConfig.light} ${themeConfig.text} mb-2`}>{unit.projectName || 'ไม่ระบุโครงการ'}</span>
+          <h3 className="text-xl font-bold text-gray-900">ห้อง {unit.unitNumber}</h3>
+          <p className="text-sm text-gray-500 mt-0.5">{unit.building ? `${unit.building} • ` : ''}ชั้น {unit.floor} • ขนาด {unit.size}</p>
         </div>
-        <div className="flex justify-between items-start mb-4">
+
+        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <div>
-            <h3 className="text-xl font-bold text-gray-800">ห้อง {unit.unitNumber}</h3>
-            <p className="text-gray-500 text-sm mt-1">{unit.building} • ชั้น {unit.floor}</p>
+            <span className="block text-xs text-gray-400">ราคาเช่า/เดือน</span>
+            <span className={`text-xl font-extrabold ${themeConfig.text}`}>฿{unit.price}</span>
           </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500">ราคา/เดือน</p>
-            <p className={`text-lg font-bold ${themeConfig.text}`}>฿{unit.price}</p>
+          <div className="flex gap-2">
+            {unit.detailUrl && (
+              <a href={unit.detailUrl} target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors shadow-sm" title="ดูรายละเอียดเพิ่มเติม">
+                <Icons.Link />
+              </a>
+            )}
+            <button className={`px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm ${unit.status === 'available' ? `${themeConfig.bg} ${themeConfig.hover} text-white shadow-${themeConfig.id}-500/20` : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`} disabled={unit.status !== 'available'}>
+              {unit.status === 'available' ? 'สนใจติดต่อ' : 'ไม่ว่าง'}
+            </button>
           </div>
-        </div>
-        <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-sm text-gray-600">
-          <span className="flex items-center gap-1 font-medium"><Icons.Shield /> {unit.size}</span>
-          <button className={`px-4 py-2 rounded-lg font-medium transition-colors shadow-sm ${unit.status === 'available' ? `${themeConfig.light} ${themeConfig.text} ${themeConfig.hover} hover:text-white` : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`} disabled={unit.status !== 'available'}>
-            {unit.status === 'available' ? 'สนใจติดต่อ' : 'ไม่ว่าง'}
-          </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-const PublicView = ({ units, themeConfig }) => (
-  <div className="p-6 max-w-7xl mx-auto animate-in fade-in duration-300">
-    <div className="mb-8"><h2 className="text-3xl font-bold text-gray-800">รายการห้องชุดโครงการ</h2><p className="text-gray-500 mt-2">เลือกชมห้องที่น่าสนใจสำหรับคุณ</p></div>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {units.length === 0 ? (
-         <div className="col-span-full py-12 text-center text-gray-400 bg-white rounded-xl border border-gray-100 border-dashed">
-           <p className="text-lg">ยังไม่มีข้อมูลห้องในระบบ</p>
-         </div>
-      ) : (
-        units.map((unit) => <UnitCard key={unit.id} unit={unit} themeConfig={themeConfig} />)
-      )}
-    </div>
-  </div>
-);
-
 const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeConfig, isLoading }) => (
-  <div className="p-6 max-w-7xl mx-auto animate-in fade-in duration-300">
-    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+  <div className="px-4 mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
+    <div className="flex flex-col items-start justify-between gap-4 p-6 bg-white border border-gray-100 shadow-sm sm:flex-row sm:items-center rounded-3xl">
       <div>
-        <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2"><Icons.Shield /> ระบบจัดการข้อมูลแอดมิน</h2>
-        <p className="text-gray-500 mt-1">จัดการข้อมูลห้องและเจ้าของห้องทั้งหมด</p>
+        <h2 className="text-2xl font-extrabold text-gray-900">ระบบจัดการหลังบ้าน</h2>
+        <p className="mt-1 text-sm text-gray-500">จัดการข้อมูลห้องพักและตั้งค่าเว็บไซต์</p>
       </div>
-      <div className="flex gap-2">
-        <button onClick={onOpenSettings} className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2.5 rounded-lg flex items-center gap-2 font-medium shadow-sm transition-colors"><Icons.Settings /> ตั้งค่าเว็บ</button>
-        <button onClick={onAddNew} className={`${themeConfig.bg} ${themeConfig.hover} text-white px-5 py-2.5 rounded-lg flex items-center gap-2 font-medium shadow-sm transition-colors`}><Icons.Plus /> เพิ่มข้อมูลห้อง</button>
+      <div className="flex w-full gap-3 sm:w-auto">
+        <button onClick={onOpenSettings} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border-2 border-gray-200 text-gray-700 font-bold hover:bg-gray-50 transition-colors">
+          <Icons.Settings /> ตั้งค่าเว็บ
+        </button>
+        <button onClick={onAddNew} className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl ${themeConfig.bg} ${themeConfig.hover} text-white font-bold transition-all shadow-lg shadow-${themeConfig.id}-500/30`}>
+          <Icons.Plus /> เพิ่มห้องใหม่
+        </button>
       </div>
     </div>
-    
+
     {!isSupabaseConfigured && (
-      <div className="mb-6 p-4 bg-orange-50 border-l-4 border-orange-500 rounded-r-lg text-orange-800 flex items-start gap-3">
-        <Icons.Warning />
+      <div className={`p-4 ${themeConfig.light} border-l-4 ${themeConfig.border} rounded-r-2xl text-gray-800 flex items-start gap-3`}>
+        <div className={themeConfig.text}><Icons.Shield /></div>
         <div>
-          <h4 className="font-bold">ยังไม่ได้เชื่อมต่อ Supabase!</h4>
-          <p className="text-sm mt-1">ข้อมูลที่เห็นตอนนี้เป็นการจำลองในเครื่อง (ข้อมูลจะหายเมื่อรีเฟรช) กรุณานำ URL และ Key จากเว็บ Supabase มาใส่ในโค้ดบรรทัดที่ 8-9 เพื่อให้ใช้งานได้จริง</p>
+          <h4 className="font-bold">คำเตือนระบบ:</h4>
+          <p className="mt-1 text-sm text-gray-600">ยังไม่ได้เชื่อมต่อ Supabase ข้อมูลตอนนี้จะเป็นตัวจำลองและจะไม่ถูกบันทึกถาวร</p>
         </div>
       </div>
     )}
 
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="overflow-hidden bg-white border border-gray-100 shadow-sm rounded-3xl">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse min-w-[800px]">
           <thead>
-            <tr className="bg-gray-50 border-b border-gray-200 text-gray-600">
-              <th className="p-4 font-semibold text-sm">โครงการ / ห้อง</th>
-              <th className="p-4 font-semibold text-sm">ข้อมูลห้อง</th>
-              <th className="p-4 font-semibold text-sm">สถานะ</th>
-              <th className={`p-4 font-semibold text-sm ${themeConfig.light}`}>ข้อมูลเจ้าของ</th>
-              <th className={`p-4 font-semibold text-sm ${themeConfig.light}`}>ติดต่อ</th>
-              <th className="p-4 font-semibold text-sm text-center">จัดการ</th>
+            <tr className="text-gray-600 border-b border-gray-100 bg-gray-50">
+              <th className="p-4 text-sm font-bold">โครงการ / ห้อง</th>
+              <th className="p-4 text-sm font-bold">ข้อมูลห้อง</th>
+              <th className="p-4 text-sm font-bold">สถานะ</th>
+              <th className={`p-4 font-bold text-sm ${themeConfig.light}`}>ข้อมูลเจ้าของห้อง</th>
+              <th className="p-4 text-sm font-bold text-center">จัดการ</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {isLoading ? (
-              <tr><td colSpan="6" className="p-12 text-center text-gray-500">กำลังโหลดข้อมูล...</td></tr>
+              <tr><td colSpan="5" className="p-16 font-medium text-center text-gray-400">กำลังโหลดข้อมูล...</td></tr>
             ) : units.length === 0 ? (
-              <tr><td colSpan="6" className="p-12 text-center text-gray-500">ไม่มีข้อมูลในระบบ กดปุ่ม "เพิ่มข้อมูลห้อง" เพื่อเริ่มต้น</td></tr>
+              <tr><td colSpan="5" className="p-16 font-medium text-center text-gray-400">ยังไม่มีข้อมูลห้องพักในระบบ</td></tr>
             ) : units.map((unit) => (
-              <tr key={unit.id} className="hover:bg-gray-50 transition-colors">
+              <tr key={unit.id} className="transition-colors hover:bg-gray-50/50">
                 <td className="p-4">
-                  <div className={`font-bold ${themeConfig.text} text-sm mb-1`}>{unit.projectName}</div>
-                  <div className="font-semibold text-gray-800">ห้อง {unit.unitNumber}</div>
-                  <div className="text-xs text-gray-500">{unit.building}</div>
+                  <div className={`font-bold ${themeConfig.text} text-sm mb-0.5`}>{unit.projectName}</div>
+                  <div className="font-extrabold text-gray-900">ห้อง {unit.unitNumber}</div>
+                  <div className="text-xs text-gray-400">{unit.building}</div>
+                  {unit.detailUrl && (
+                    <a href={unit.detailUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-1 text-xs font-medium text-blue-500 hover:underline">
+                      <Icons.Link /> ลิงก์รายละเอียด
+                    </a>
+                  )}
                 </td>
-                <td className="p-4 text-sm text-gray-600"><div>ชั้น {unit.floor}</div><div>ขนาด {unit.size}</div></td>
+                <td className="p-4 text-sm font-medium text-gray-600">
+                  <div>ชั้น {unit.floor}</div>
+                  <div className="text-xs text-gray-400">ขนาด {unit.size}</div>
+                </td>
                 <td className="p-4">
-                  <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${unit.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{unit.status === 'available' ? 'ว่าง' : 'มีผู้เช่า'}</span>
-                  <div className="text-xs font-medium text-gray-600 mt-1">฿{unit.price}/ด.</div>
+                  <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${unit.status === 'available' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                    {unit.status === 'available' ? 'ว่างพร้อมเช่า' : 'ไม่ว่าง'}
+                  </span>
+                  <div className="mt-1 text-xs font-extrabold text-gray-900">฿{unit.price}/ด.</div>
                 </td>
-                <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-50`}><div className="font-medium text-gray-800">{unit.ownerName}</div></td>
-                <td className={`p-4 text-sm text-gray-600 ${themeConfig.light} bg-opacity-50`}><div>{unit.ownerPhone}</div><div className="text-xs text-gray-500">{unit.ownerEmail}</div></td>
+                <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-30`}>
+                  <div className="font-semibold text-gray-800 mb-0.5">{unit.ownerName || '-'}</div>
+                  <div className="font-medium text-gray-600">{unit.ownerPhone || '-'}</div>
+                  <div className="text-xs text-gray-400">{unit.ownerEmail || '-'}</div>
+                </td>
                 <td className="p-4">
                   <div className="flex justify-center gap-2">
-                    <button onClick={() => onEdit(unit)} className={`p-2 ${themeConfig.text} ${themeConfig.light} hover:bg-opacity-70 rounded-lg transition-colors`} title="แก้ไข"><Icons.Edit /></button>
-                    <button onClick={() => onDelete(unit.id)} className="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors" title="ลบ"><Icons.Trash /></button>
+                    <button onClick={() => onEdit(unit)} className={`p-2.5 ${themeConfig.text} ${themeConfig.light} hover:bg-opacity-70 rounded-xl transition-colors`} title="แก้ไข"><Icons.Edit /></button>
+                    <button onClick={() => onDelete(unit.id)} className="p-2.5 text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors" title="ลบ"><Icons.Trash /></button>
                   </div>
                 </td>
               </tr>
@@ -324,13 +487,13 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
 );
 
 const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => {
-  const [formData, setFormData] = useState({ projectName: '', unitNumber: '', building: '', floor: '', size: '', status: 'available', price: '', ownerName: '', ownerPhone: '', ownerEmail: '', images: [] });
+  const [formData, setFormData] = useState({ projectName: '', unitNumber: '', building: '', floor: '', size: '', status: 'available', price: '', ownerName: '', ownerPhone: '', ownerEmail: '', detailUrl: '', images: [] });
   const [isCompressing, setIsCompressing] = useState(false);
   const [uploadStatus, setUploadStatus] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
-      setFormData(unitToEdit ? { ...unitToEdit, images: unitToEdit.images ? [...unitToEdit.images] : [] } : { projectName: '', unitNumber: '', building: '', floor: '', size: '', status: 'available', price: '', ownerName: '', ownerPhone: '', ownerEmail: '', images: [] });
+      setFormData(unitToEdit ? { ...unitToEdit, images: unitToEdit.images ? [...unitToEdit.images] : [] } : { projectName: '', unitNumber: '', building: '', floor: '', size: '', status: 'available', price: '', ownerName: '', ownerPhone: '', ownerEmail: '', detailUrl: '', images: [] });
       setUploadStatus('');
     }
   }, [isOpen, unitToEdit]);
@@ -338,7 +501,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
   if (!isOpen) return null;
 
   const handleChange = (e) => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  
+
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     files.forEach(file => {
@@ -355,26 +518,27 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
     e.preventDefault();
     setIsCompressing(true);
     setUploadStatus('กำลังบันทึกข้อมูล...');
-    const cleanedData = { ...formData };
-    
-    // ส่ง callback progress ไปด้วยเพื่อโชว์สถานะ
-    onSave(cleanedData, setUploadStatus).finally(() => setIsCompressing(false));
+    onSave(formData, setUploadStatus).finally(() => setIsCompressing(false));
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl my-8 animate-in zoom-in-95 duration-200">
-        <div className="flex justify-between items-center p-6 border-b border-gray-100">
-          <h3 className="text-xl font-bold text-gray-800">{unitToEdit ? 'แก้ไขข้อมูลห้อง' : 'เพิ่มข้อมูลห้องใหม่'}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1"><Icons.Close /></button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-white rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
+          <h2 className="flex items-center gap-2 text-xl font-extrabold text-gray-800">
+            {unitToEdit ? <><Icons.Edit /> แก้ไขข้อมูลห้อง</> : <><Icons.Plus /> เพิ่มข้อมูลห้องใหม่</>}
+          </h2>
+          <button onClick={onClose} className="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-200"><Icons.Close /></button>
         </div>
-        <form onSubmit={handleSubmit} className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h4 className="font-semibold text-gray-700 border-b pb-2">ข้อมูลห้องพัก (หน้าลูกค้า)</h4>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">ชื่อโครงการ</label>
-                <select required name="projectName" value={formData.projectName} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none bg-white ${themeConfig.ring} focus:ring-2`}>
+        
+        <form onSubmit={handleSubmit} className="flex-grow p-6 space-y-6 overflow-y-auto">
+          {/* ข้อมูลห้องพัก */}
+          <div className="space-y-4">
+            <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลห้องพัก</h4>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อโครงการ</label>
+                <select required name="projectName" value={formData.projectName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} focus:border-transparent text-sm`}>
                   <option value="">-- เลือกโครงการ --</option>
                   {PROJECT_LIST.map((zoneData, idx) => (
                     <optgroup key={idx} label={`โซน: ${zoneData.zone}`}>
@@ -383,52 +547,91 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                   ))}
                 </select>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div><label className="block text-sm font-medium text-gray-600 mb-1">เลขห้อง</label><input required type="text" name="unitNumber" value={formData.unitNumber} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.ring} focus:ring-2`} /></div>
-                <div><label className="block text-sm font-medium text-gray-600 mb-1">อาคาร</label><input type="text" name="building" value={formData.building} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.ring} focus:ring-2`} /></div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">เลขห้อง</label>
+                <input required type="text" name="unitNumber" value={formData.unitNumber} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div><label className="block text-sm font-medium text-gray-600 mb-1">ชั้น</label><input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.ring} focus:ring-2`} /></div>
-                <div><label className="block text-sm font-medium text-gray-600 mb-1">ขนาด</label><input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.ring} focus:ring-2`} /></div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">อาคาร</label>
+                <input type="text" name="building" value={formData.building} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div><label className="block text-sm font-medium text-gray-600 mb-1">ราคา/เดือน</label><input required type="text" name="price" value={formData.price} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.ring} focus:ring-2`} /></div>
-                <div><label className="block text-sm font-medium text-gray-600 mb-1">สถานะ</label><select name="status" value={formData.status} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none bg-white ${themeConfig.ring} focus:ring-2`}><option value="available">ว่าง (พร้อมเช่า)</option><option value="occupied">มีผู้เช่าแล้ว</option></select></div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">ชั้น</label>
+                <input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
-            </div>
-            <div className="space-y-4">
-              <h4 className={`font-semibold ${themeConfig.text} border-b ${themeConfig.border} border-opacity-20 pb-2 flex items-center gap-2`}><Icons.Shield /> ข้อมูลส่วนตัวเจ้าของ</h4>
-              <div><label className="block text-sm font-medium text-gray-600 mb-1">ชื่อ-นามสกุล</label><input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.light} ${themeConfig.ring} focus:ring-2`} /></div>
-              <div><label className="block text-sm font-medium text-gray-600 mb-1">เบอร์โทรศัพท์</label><input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.light} ${themeConfig.ring} focus:ring-2`} /></div>
-              <div><label className="block text-sm font-medium text-gray-600 mb-1">ID LINE</label><input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.light} ${themeConfig.ring} focus:ring-2`} /></div>
-              <div><label className="block text-sm font-medium text-gray-600 mb-1">LINK</label><input type="text" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-lg p-2.5 outline-none ${themeConfig.light} ${themeConfig.ring} focus:ring-2`} /></div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center mt-4">
-                  <label className="block text-sm font-medium text-gray-600">รูปภาพห้อง</label>
-                  <label className={`cursor-pointer text-xs ${themeConfig.text} font-medium flex items-center gap-1 hover:underline bg-gray-50 px-2 py-1 rounded border border-gray-200`}><Icons.Plus /> เพิ่มรูปภาพ<input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" /></label>
-                </div>
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {formData.images.map((imgSrc, index) => (
-                    <div key={index} className="relative group border border-gray-200 rounded-lg overflow-hidden bg-gray-50 h-24 shadow-sm">
-                      <img src={imgSrc} alt="preview" className="w-full h-full object-cover" />
-                      <button type="button" onClick={() => removeImage(index)} className="absolute top-1 right-1 bg-red-500/90 hover:bg-red-600 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity"><Icons.Trash /></button>
-                    </div>
-                  ))}
-                  {formData.images.length === 0 && (
-                     <div className="col-span-3 py-4 text-center text-xs text-gray-400 border border-dashed rounded-lg">ยังไม่มีรูปภาพ</div>
-                  )}
-                </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">ขนาด</label>
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} placeholder="เช่น 35 ตร.ม." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+              </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">ราคา/เดือน</label>
+                <input required type="text" name="price" value={formData.price} onChange={handleChange} placeholder="เช่น 15,000" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+              </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">สถานะ</label>
+                <select name="status" value={formData.status} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} focus:border-transparent text-sm`}>
+                  <option value="available">ว่าง (พร้อมเช่า)</option>
+                  <option value="rented">มีผู้เช่าแล้ว</option>
+                </select>
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block mb-1 text-xs font-bold text-gray-600">ลิงก์รายละเอียดห้องเพิ่มเติม (URL)</label>
+                <input type="url" name="detailUrl" value={formData.detailUrl || ''} onChange={handleChange} placeholder="https://..." className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
           </div>
-          <div className="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-sm font-medium text-blue-600">{uploadStatus}</span>
-            <div className="flex gap-3">
-              <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-lg text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 font-medium transition-colors">ยกเลิก</button>
-              <button type="submit" disabled={isCompressing} className={`px-5 py-2.5 rounded-lg ${themeConfig.bg} ${themeConfig.hover} shadow-sm text-white font-medium transition-colors disabled:opacity-50 flex items-center gap-2`}>
-                {isCompressing ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
-              </button>
+
+          {/* ข้อมูลเจ้าของห้อง */}
+          <div className="pt-2 space-y-4">
+            <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลเจ้าของห้อง</h4>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อ-นามสกุล</label>
+                <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+              </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">เบอร์โทรศัพท์</label>
+                <input required type="text" name="ownerPhone" value={formData.ownerPhone} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+              </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">อีเมล</label>
+                <input type="email" name="ownerEmail" value={formData.ownerEmail} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
+              </div>
             </div>
+          </div>
+
+          {/* รูปภาพห้องพัก */}
+          <div className="pt-2 space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>รูปภาพห้องพัก</h4>
+              <label className={`cursor-pointer ${themeConfig.light} ${themeConfig.text} hover:opacity-80 px-3 py-1.5 rounded-xl text-xs font-bold transition-opacity flex items-center gap-1 border ${themeConfig.border}`}>
+                <Icons.Plus /> เพิ่มรูปภาพ
+                <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="hidden" />
+              </label>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {formData.images.map((imgSrc, index) => (
+                <div key={index} className="relative h-24 overflow-hidden border border-gray-200 shadow-sm group rounded-2xl">
+                  <img src={imgSrc} alt="Room" className="object-cover w-full h-full" />
+                  <button type="button" onClick={() => removeImage(index)} className="absolute top-1.5 right-1.5 bg-rose-600 hover:bg-rose-700 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"><Icons.Trash /></button>
+                </div>
+              ))}
+              {formData.images.length === 0 && (
+                <div className="py-8 text-sm text-center text-gray-400 border-2 border-gray-200 border-dashed col-span-full rounded-2xl">
+                  ยังไม่มีรูปภาพ (กดปุ่มเพิ่มรูปภาพด้านบน)
+                </div>
+              )}
+            </div>
+          </div>
+
+          {uploadStatus && <p className={`text-center text-sm font-semibold ${themeConfig.text}`}>{uploadStatus}</p>}
+
+          <div className="flex gap-3 pt-4 border-t border-gray-100">
+            <button type="button" onClick={onClose} className="flex-1 py-3 font-medium text-gray-700 transition-colors border border-gray-300 rounded-xl hover:bg-gray-50">ยกเลิก</button>
+            <button type="submit" disabled={isCompressing} className={`flex-1 py-3 rounded-xl ${themeConfig.bg} ${themeConfig.hover} text-white font-bold transition-colors shadow-lg shadow-${themeConfig.id}-500/30 disabled:opacity-50`}>
+              {isCompressing ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
+            </button>
           </div>
         </form>
       </div>
@@ -438,7 +641,6 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
 
 const DeleteConfirmModal = ({ isOpen, onClose, onConfirm }) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  
   if (!isOpen) return null;
 
   const handleConfirm = async () => {
@@ -448,24 +650,28 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 text-center animate-in zoom-in-95 duration-200">
-        <div className="flex justify-center mb-4"><Icons.Warning /></div>
-        <h3 className="text-xl font-bold text-gray-800 mb-2">ยืนยันการลบข้อมูล</h3>
-        <p className="text-gray-500 mb-6">คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลห้องนี้? การกระทำนี้ไม่สามารถย้อนกลับได้</p>
-        <div className="flex gap-3 justify-center">
-          <button onClick={onClose} disabled={isDeleting} className="flex-1 py-2.5 rounded-lg text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium disabled:opacity-50">ยกเลิก</button>
-          <button onClick={handleConfirm} disabled={isDeleting} className="flex-1 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium shadow-sm disabled:opacity-50">{isDeleting ? 'กำลังลบ...' : 'ลบข้อมูล'}</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-sm p-8 overflow-hidden text-center bg-white shadow-2xl rounded-3xl">
+        <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-rose-100 text-rose-600">
+          <Icons.Trash />
+        </div>
+        <h3 className="mb-2 text-xl font-extrabold text-gray-900">ยืนยันการลบข้อมูล</h3>
+        <p className="mb-6 text-sm text-gray-500">คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลห้องนี้? การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+        <div className="flex gap-3">
+          <button onClick={onClose} className="flex-1 py-3 font-bold text-gray-700 transition-colors border border-gray-300 rounded-xl hover:bg-gray-50">ยกเลิก</button>
+          <button onClick={handleConfirm} disabled={isDeleting} className="flex-1 py-3 font-bold text-white transition-colors rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-50">
+            {isDeleting ? 'กำลังลบ...' : 'ลบข้อมูล'}
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
 
 const LoginModal = ({ isOpen, onClose, onLogin, themeConfig, expectedPassword }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  React.useEffect(() => { if (isOpen) { setPassword(''); setError(''); } }, [isOpen]);
+  useEffect(() => { if (isOpen) { setPassword(''); setError(''); } }, [isOpen]);
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
@@ -474,23 +680,26 @@ const LoginModal = ({ isOpen, onClose, onLogin, themeConfig, expectedPassword })
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 animate-in zoom-in-95 duration-200">
-        <div className="flex justify-center mb-4 text-gray-800"><Icons.Lock /></div>
-        <h3 className="text-xl font-bold text-gray-800 mb-2 text-center">เข้าสู่ระบบแอดมิน</h3>
-        <p className="text-gray-500 mb-6 text-center text-sm">กรุณาใส่รหัสผ่านเพื่อจัดการข้อมูล</p>
-        <form onSubmit={handleSubmit}>
-          <input type="password" autoFocus required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="รหัสผ่าน..." className={`w-full border ${error ? 'border-red-300 focus:ring-red-200' : 'border-gray-300 ' + themeConfig.ring} rounded-lg p-3 outline-none focus:ring-2 mb-2 text-center text-lg tracking-widest`} />
-          {error && <p className="text-red-500 text-xs text-center mb-4">{error}</p>}
-          <div className="flex gap-3 mt-6">
-            <button type="button" onClick={onClose} className="flex-1 py-2.5 rounded-lg text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium">ยกเลิก</button>
-            <button type="submit" className={`flex-1 py-2.5 rounded-lg ${themeConfig.bg} hover:${themeConfig.hover} text-white font-medium shadow-sm`}>ยืนยัน</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-sm p-8 overflow-hidden bg-white shadow-2xl rounded-3xl">
+        <div className={`w-16 h-16 ${themeConfig.light} ${themeConfig.text} rounded-full flex items-center justify-center mx-auto mb-4`}>
+          <Icons.Lock />
+        </div>
+        <h3 className="mb-2 text-xl font-extrabold text-center text-gray-900">เข้าสู่ระบบแอดมิน</h3>
+        <p className="mb-6 text-sm text-center text-gray-500">กรุณาใส่รหัสผ่านเพื่อจัดการข้อมูล</p>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input type="password" autoFocus required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="รหัสผ่าน..." className={`w-full border ${error ? 'border-rose-300 focus:ring-rose-200' : 'border-gray-300'} rounded-xl p-3.5 outline-none focus:ring-2 text-center text-lg tracking-widest`} />
+          {error && <p className="text-sm font-medium text-center text-rose-500">{error}</p>}
+          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={onClose} className="flex-1 py-3 font-bold text-gray-700 transition-colors border border-gray-300 rounded-xl hover:bg-gray-50">ยกเลิก</button>
+            <button type="submit" className={`flex-1 py-3 rounded-xl ${themeConfig.bg} hover:opacity-90 text-white font-bold transition-opacity`}>ยืนยัน</button>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
 // ==========================================
 // Main App Component
@@ -500,23 +709,20 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
   const [units, setUnits] = useState([]);
   
-  // โหลดการตั้งค่าจาก LocalStorage ของเบราว์เซอร์
   const [appConfig, setAppConfig] = useState(() => {
     const saved = localStorage.getItem('condoAppConfig');
-    return saved ? JSON.parse(saved) : { companyName: 'CondoSpace', logoUrl: '', theme: 'blue', adminPassword: 'admin' };
+    return saved ? JSON.parse(saved) : { companyName: 'TFS Asset', logoUrl: '', theme: 'blue', adminPassword: 'admin' };
   });
-  
+
   const themeConfig = THEMES[appConfig.theme] || THEMES.blue;
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [editingUnit, setEditingUnit] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
-  // ดึงข้อมูลจาก Supabase เมื่อเปิดเว็บ
   useEffect(() => {
     fetchUnits();
   }, []);
@@ -524,7 +730,6 @@ export default function App() {
   const fetchUnits = async () => {
     setIsLoading(true);
     if (isSupabaseConfigured) {
-      // ดึงจาก Supabase
       const { data, error } = await supabase.from('units').select('*').order('id', { ascending: false });
       if (!error && data) {
         setUnits(data);
@@ -532,10 +737,10 @@ export default function App() {
         console.error("Error fetching units:", error);
       }
     } else {
-      // ข้อมูลจำลองหากยังไม่ได้ต่อฐานข้อมูล
       setUnits([{
-        id: "mock1", projectName: "IDEO CHULA SAMYAN", unitNumber: "A-101", building: "ตึก A", floor: 12, size: "35 ตร.ม.",
-        status: "available", price: "15,000", ownerName: "สมชาย ใจดี", ownerPhone: "081-234-5678", ownerEmail: "somchai@example.com",
+        id: "mock1", projectName: "IDEO CHULA SAMYAN", unitNumber: "A-101", building: "ตึก A", floor: 12, size: "35 ตร.ม.", 
+        status: "available", price: "15,000", ownerName: "สมชาย ใจดี", ownerPhone: "081-234-5678", ownerEmail: "somchai@example.com", 
+        detailUrl: "https://example.com",
         images: ["https://placehold.co/600x400/e2e8f0/475569?text=IDEO+CHULA"]
       }]);
     }
@@ -547,22 +752,17 @@ export default function App() {
     let finalImageUrls = [];
 
     if (isSupabaseConfigured) {
-      // 1. อัปโหลดรูปภาพใหม่ไปที่ Storage
       for (const [index, img] of unitData.images.entries()) {
         if (img.startsWith('data:image')) {
           setUploadStatus(`กำลังอัปโหลดรูปภาพที่ ${index + 1}...`);
           try {
-            // แปลง Base64 เป็นไฟล์ Blob
             const res = await fetch(img);
             const blob = await res.blob();
-            // ตั้งชื่อไฟล์ให้ไม่ซ้ำกัน
             const fileName = `room-${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
             
-            // อัปโหลดเข้า Storage ชื่อ condo-images
             const { data, error } = await supabase.storage.from('condo-images').upload(fileName, blob);
             
             if (!error) {
-              // ขอลิ้งค์รูปแบบ Public เพื่อเก็บลง Database
               const { data: publicUrlData } = supabase.storage.from('condo-images').getPublicUrl(fileName);
               finalImageUrls.push(publicUrlData.publicUrl);
             } else {
@@ -572,7 +772,6 @@ export default function App() {
             console.error("Error converting image:", e);
           }
         } else {
-          // ถ้ารูปเป็น URL อยู่แล้ว (มาจากรูปเดิมตอนแก้ไข)
           finalImageUrls.push(img);
         }
       }
@@ -580,20 +779,16 @@ export default function App() {
       dataToSave.images = finalImageUrls.length > 0 ? finalImageUrls : [];
       setUploadStatus('กำลังบันทึกข้อมูลลงฐานข้อมูล...');
       
-      // 2. บันทึกข้อมูลลงตาราง units
-      if (!dataToSave.id) dataToSave.id = Date.now().toString(); // สร้าง ID ใหม่ถ้าเป็นการเพิ่ม
+      if (!dataToSave.id) dataToSave.id = Date.now().toString();
       
       const { error: dbError } = await supabase.from('units').upsert(dataToSave);
       
       if (!dbError) {
-        await fetchUnits(); // รีเฟรชข้อมูลใหม่
+        await fetchUnits();
       } else {
         console.error("DB Save error:", dbError);
-        alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล: " + dbError.message);
       }
-      
     } else {
-      // การทำงานแบบจำลอง (In-memory) กรณีไม่ได้ต่อ Database
       dataToSave.id = editingUnit ? editingUnit.id : Date.now().toString();
       if (editingUnit) {
         setUnits(units.map(u => u.id === editingUnit.id ? dataToSave : u));
@@ -601,13 +796,12 @@ export default function App() {
         setUnits([dataToSave, ...units]);
       }
     }
-    
+
     setIsModalOpen(false);
     setEditingUnit(null);
   };
 
   const handleSaveSettings = (newConfig) => {
-    // บันทึกการตั้งค่าลง LocalStorage
     setAppConfig(newConfig);
     localStorage.setItem('condoAppConfig', JSON.stringify(newConfig));
     setIsSettingsOpen(false);
@@ -616,16 +810,13 @@ export default function App() {
   const confirmDelete = async () => {
     if (deleteId !== null) {
       if (isSupabaseConfigured) {
-        // ลบข้อมูลจาก Supabase
         const { error } = await supabase.from('units').delete().eq('id', deleteId);
         if (!error) {
           await fetchUnits();
         } else {
           console.error("Delete error:", error);
-          alert("ไม่สามารถลบข้อมูลได้");
         }
       } else {
-        // การทำงานแบบจำลอง
         setUnits(units.filter(u => u.id !== deleteId));
       }
       setDeleteId(null);
@@ -633,42 +824,42 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-slate-50 font-sans text-gray-900 selection:${themeConfig.light}`}>
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex flex-shrink-0 items-center gap-3">
-              {appConfig.logoUrl ? (
-                <img src={appConfig.logoUrl} alt="Logo" className="h-8 object-contain" />
-              ) : (
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-sm ${themeConfig.bg}`}>
-                  {appConfig.companyName.charAt(0)}
-                </div>
-              )}
-              <span className={`font-bold text-xl tracking-tight ${themeConfig.text} truncate max-w-[150px] sm:max-w-xs`}>{appConfig.companyName}</span>
-            </div>
-            
-            <div className="flex items-center">
-              <div className="flex p-1 bg-gray-100 rounded-lg border border-gray-200">
-                <button onClick={() => setIsAdmin(false)} className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${!isAdmin ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-                  <Icons.User /> <span className="hidden sm:inline">ลูกค้าทั่วไป</span>
-                </button>
-                {isAdmin ? (
-                  <button onClick={() => { setIsAdmin(false); setIsAuthenticated(false); }} className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${themeConfig.bg} text-white shadow-sm`}>
-                    <Icons.Lock /> <span className="hidden sm:inline">ออกจากระบบ</span>
-                  </button>
-                ) : (
-                  <button onClick={() => isAuthenticated ? setIsAdmin(true) : setShowLogin(true)} className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 text-gray-500 hover:text-gray-700">
-                    <Icons.Shield /> <span className="hidden sm:inline">แอดมิน</span>
-                  </button>
-                )}
+    <div className="min-h-screen font-sans text-gray-900 bg-gray-50 selection:bg-blue-200">
+      
+      {/* Navbar แบบพรีเมียม (ไม่มีพื้นหลังสีขาวล้วน) */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isAdmin ? 'bg-white shadow-sm' : 'bg-transparent shadow-none'}`}>
+        <div className="flex items-center justify-between h-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsAdmin(false)}>
+            {appConfig.logoUrl ? (
+              <img src={appConfig.logoUrl} alt="Logo" className="object-contain h-10 drop-shadow-md" />
+            ) : (
+              <div className={`w-10 h-10 ${themeConfig.bg} text-white rounded-xl flex items-center justify-center font-black text-xl shadow-lg`}>
+                {appConfig.companyName.charAt(0)}
               </div>
+            )}
+            <span className={`text-xl font-black tracking-tight drop-shadow-sm ${isAdmin ? 'text-gray-900' : 'text-white'}`}>{appConfig.companyName}</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className={`flex p-1 rounded-full border ${isAdmin ? 'bg-gray-100 border-gray-200/60' : 'bg-black/20 border-white/20 backdrop-blur-md'}`}>
+              <button onClick={() => setIsAdmin(false)} className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 ${!isAdmin ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+                <Icons.User /> <span className="hidden sm:inline">หน้าแรก</span>
+              </button>
+              {isAdmin ? (
+                <button onClick={() => { setIsAdmin(false); setIsAuthenticated(false); }} className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold transition-all duration-200 ${themeConfig.bg} text-white shadow-lg shadow-${themeConfig.id}-500/30`}>
+                  <Icons.Lock /> <span className="hidden sm:inline">ออกจากระบบ</span>
+                </button>
+              ) : (
+                <button onClick={() => isAuthenticated ? setIsAdmin(true) : setShowLogin(true)} className="flex items-center gap-2 px-5 py-2 text-sm font-bold text-white transition-all duration-200 rounded-full hover:bg-white/10">
+                  <Icons.Shield /> <span className="hidden sm:inline">แอดมิน</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
       </nav>
 
-      <main className="pb-12 pt-4">
+      <main className={isAdmin ? 'pt-28' : ''}>
         {isAdmin ? (
           <AdminView units={units} themeConfig={themeConfig} isLoading={isLoading} onEdit={(u) => { setEditingUnit(u); setIsModalOpen(true); }} onDelete={(id) => setDeleteId(id)} onAddNew={() => { setEditingUnit(null); setIsModalOpen(true); }} onOpenSettings={() => setIsSettingsOpen(true)} />
         ) : (
