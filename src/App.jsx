@@ -1,10 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-// ==========================================
-// ⚠️ เชื่อมต่อ Supabase ของจริง 100%
-// ==========================================
 const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_leBQo88PZWYV800h4C6dUA_Oj4gMzMm';
 
@@ -214,7 +210,6 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md">
       <div className="w-full max-w-4xl max-h-[92vh] bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/80">
           <div>
             <div className="flex items-center gap-2">
@@ -226,9 +221,7 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
           <button onClick={onClose} className="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-200"><Icons.Close /></button>
         </div>
 
-        {/* Content Body */}
         <div className="flex-grow p-6 space-y-6 overflow-y-auto">
-          {/* Image Slider */}
           <div className="relative overflow-hidden bg-black shadow-inner h-72 sm:h-96 rounded-2xl">
             <img src={images[currentIdx]} alt={unit.title} className="object-cover w-full h-full" />
             {images.length > 1 && (
@@ -245,7 +238,6 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
             </div>
           </div>
 
-          {/* Details & Price */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div className="space-y-4 lg:col-span-2">
               <div className="p-5 border border-gray-100 bg-gray-50 rounded-2xl">
@@ -276,14 +268,13 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
               {unit.detailUrl && (
                 <div className="flex items-center justify-between p-4 border border-blue-100 bg-blue-50/50 rounded-2xl">
                   <span className="text-sm font-bold text-blue-900">ลิงก์ประกาศต้นฉบับ / รายละเอียดเพิ่มเติม</span>
-                  <a href={unit.detailUrl} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md transition-colors flex items-center gap-1.5">
+                  <a href={unit.detailUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md transition-colors">
                     <Icons.Link /> เปิดลิงก์
                   </a>
                 </div>
               )}
             </div>
 
-            {/* Agent Contact Card (Public view only shows Agent info) */}
             <div className="flex flex-col justify-between p-6 space-y-4 bg-white border-2 border-gray-100 shadow-sm rounded-2xl">
               <div>
                 <span className="block text-xs font-bold tracking-wider text-gray-400 uppercase">ราคาประกาศ</span>
@@ -301,19 +292,19 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
                   </div>
                   <div>
                     <h5 className="font-bold text-gray-900">{unit.agentName || 'TFS Asset Agent'}</h5>
-                    <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5"><Icons.Phone /> {unit.agentPhone || '081-234-5678'}</p>
+                    <p className="flex items-center gap-1 mt-0.5 text-xs text-gray-500"><Icons.Phone /> {unit.agentPhone || '081-234-5678'}</p>
                   </div>
                 </div>
 
                 <div className="pt-2 space-y-2">
                   {unit.agentIDLINE && (
-                    <div className="flex items-center justify-between p-3 text-xs font-bold border bg-emerald-50 border-emerald-200 rounded-xl text-emerald-800">
+                    <div className="flex items-center justify-between p-3 text-xs font-bold border border-emerald-200 bg-emerald-50 rounded-xl text-emerald-800">
                       <span className="flex items-center gap-1.5"><Icons.Chat /> LINE ID: {unit.agentIDLINE}</span>
                       <span className="px-2.5 py-1 bg-emerald-600 text-white rounded-lg">แอดไลน์</span>
                     </div>
                   )}
                   {unit.agentLINK && (
-                    <a href={unit.agentLINK} target="_blank" rel="noopener noreferrer" className="block text-center py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-xl transition-colors shadow-sm">
+                    <a href={unit.agentLINK} target="_blank" rel="noopener noreferrer" className="block py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-bold text-center rounded-xl transition-colors shadow-sm">
                       ติดต่อผ่านลิงก์โซเชียล
                     </a>
                   )}
@@ -343,31 +334,27 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
 
   return (
     <div className="pb-24 space-y-12 bg-gray-50/50">
-      
-      {/* 1. Hero Section */}
       <div className="relative h-[500px] w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
           <img src={bannerUrl || defaultBanner} alt="Hero Background" className="object-cover w-full h-full" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent"></div>
         </div>
 
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="max-w-2xl text-left">
-            <h1 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl drop-shadow-lg">
-               หาเช่า บ้าน | คอนโด 
+          <div className="max-w-3xl text-left">
+            <h1 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+              ซื้อ · ขาย · เช่า <span className="font-normal text-white/80">|</span> คอนโดและบ้านทั่วกรุงเทพฯ
             </h1>
-            <div className="flex flex-wrap gap-3 mt-4 text-sm font-medium text-white/90 sm:text-base drop-shadow-md">
-              <span>คอนโดหรู</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
-              <span>เช่าบ้าน</span> • <span>ขายบ้าน</span> 
-            </div>
+            <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+              คอนโดหรู · เช่าคอนโด · ขายคอนโด · เช่าบ้าน · ขายบ้าน · ทำเลทองใจกลางเมือง
+            </p>
           </div>
         </div>
       </div>
 
-      {/* 2. Floating Search Box */}
       <div className="relative z-20 w-full max-w-6xl px-4 mx-auto -mt-24 sm:px-6 lg:px-8">
-        <div className="overflow-hidden bg-white border border-gray-100 shadow-2xl rounded-2xl">
-          <div className="flex overflow-x-auto border-b border-gray-100 scrollbar-hide">
+        <div className="overflow-hidden border shadow-2xl bg-white/95 backdrop-blur-xl border-white/40 shadow-black/10 rounded-3xl">
+          <div className="flex px-4 pt-2 overflow-x-auto border-b border-gray-100 scrollbar-hide">
             {SEARCH_TABS.map((tab) => (
               <button
                 key={tab}
@@ -382,25 +369,24 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
               </button>
             ))}
           </div>
-          <div className="flex flex-col items-center gap-4 p-4 sm:p-6 sm:flex-row">
+          <div className="flex flex-col items-center gap-4 p-6 sm:p-8 sm:flex-row">
             <div className="relative flex-grow w-full">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none"><Icons.Search /></div>
+              <div className="absolute inset-y-0 left-0 flex items-center pl-5 text-gray-400 pointer-events-none"><Icons.Search /></div>
               <input 
                 type="text" 
                 placeholder="กรอกชื่อ ทำเล / โครงการ / รถไฟฟ้า..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-300 rounded-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow text-sm sm:text-base shadow-inner"
+                className="w-full py-4 pr-6 text-base text-gray-900 placeholder-gray-400 transition-all border border-gray-200 shadow-inner pl-13 bg-gray-50/80 hover:bg-gray-50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
               />
             </div>
-            <button className={`w-full sm:w-auto px-10 py-3.5 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-md shadow-blue-500/30 whitespace-nowrap`}>
+            <button className={`w-full sm:w-auto px-10 py-4 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-500/25 whitespace-nowrap text-base`}>
               ค้นหา
             </button>
           </div>
         </div>
       </div>
 
-      {/* 3. หมวดหมู่ประเภทอสังหาฯ */}
       <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-xl font-bold ${themeConfig.text}`}>ประเภทอสังหาฯ</h2>
@@ -413,7 +399,7 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         <div className="flex gap-6 py-2 overflow-x-auto scrollbar-hide sm:justify-center">
           {PROPERTY_CATEGORIES.map((cat, idx) => (
             <div key={idx} className="flex flex-col items-center gap-3 min-w-[70px] cursor-pointer group">
-              <div className={`w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-gray-100 group-hover:${themeConfig.light} group-hover:${themeConfig.border} group-hover:-translate-y-1 transition-all duration-300`}>
+              <div className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-gray-100 group-hover:${themeConfig.light} group-hover:${themeConfig.border} group-hover:-translate-y-1 transition-all duration-300`}>
                 {cat.icon}
               </div>
               <span className={`text-xs font-medium text-gray-600 group-hover:${themeConfig.text}`}>{cat.name}</span>
@@ -422,7 +408,6 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         </div>
       </div>
 
-      {/* 4. ทำเลยอดนิยม */}
       <div className="px-4 pt-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-xl font-bold ${themeConfig.text}`}>ทำเลยอดนิยม</h2>
@@ -430,9 +415,9 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {POPULAR_ZONES.map((zone, idx) => (
-            <div key={idx} onClick={() => setSearchTerm(zone.name)} className="relative h-56 overflow-hidden border border-gray-200 shadow-sm cursor-pointer group rounded-xl">
+            <div key={idx} onClick={() => setSearchTerm(zone.name)} className="relative h-56 overflow-hidden border border-gray-200 shadow-sm cursor-pointer group rounded-2xl">
               <img src={zone.bg} alt={zone.name} className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" />
-              <div className="absolute inset-0 flex flex-col justify-end p-4 text-center bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+              <div className="absolute inset-0 flex flex-col justify-end p-4 text-center bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                 <h3 className="text-lg font-bold text-white">{zone.name}</h3>
                 <p className="text-gray-200 text-[10px] mt-1 line-clamp-1">ขาย เช่า คอนโด บ้าน ที่ดิน {zone.name}</p>
               </div>
@@ -441,11 +426,10 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         </div>
       </div>
 
-      {/* 5. Unit Listings Section */}
       <div className="px-4 pt-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between pb-4 mb-8 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900">รายการประกาศล่าสุด</h2>
-          <span className="text-sm font-medium px-4 py-1.5 bg-gray-100 rounded-full text-gray-600">พบ {filteredUnits.length} รายการ</span>
+          <span className="text-sm font-medium px-4 py-1.5 bg-white shadow-sm border border-gray-200 rounded-full text-gray-600">พบ {filteredUnits.length} รายการ</span>
         </div>
 
         {filteredUnits.length === 0 ? (
@@ -457,7 +441,7 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {filteredUnits.map((unit) => (
-              <div key={unit.id} onClick={() => setSelectedUnit(unit)} className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-200 shadow-sm cursor-pointer rounded-2xl hover:shadow-xl group">
+              <div key={unit.id} onClick={() => setSelectedUnit(unit)} className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-200 shadow-sm cursor-pointer rounded-3xl hover:shadow-xl group">
                 <UnitCard unit={unit} themeConfig={themeConfig} />
               </div>
             ))}
@@ -495,7 +479,7 @@ const UnitCard = ({ unit, themeConfig }) => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-between flex-grow p-5 space-y-4">
+      <div className="flex flex-col justify-between flex-grow p-6 space-y-4">
         <div className="space-y-2">
           <div className="flex gap-2">
             <span className={`px-2.5 py-1 rounded-lg text-xs font-bold ${themeConfig.light} ${themeConfig.text}`}>{unit.propertyType || 'คอนโด'}</span>
@@ -522,6 +506,7 @@ const UnitCard = ({ unit, themeConfig }) => {
 
         <div className="flex items-end justify-between pt-4 border-t border-gray-100">
           <div>
+            <span className="block text-xs text-gray-400">ราคาประกาศ</span>
             <span className="text-xl font-extrabold text-gray-900">฿{Number(unit.price || 0).toLocaleString()}</span>
           </div>
           <span className={`text-xs font-bold ${themeConfig.text} group-hover:underline flex items-center gap-0.5`}>
@@ -670,7 +655,6 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
         </div>
         
         <form onSubmit={handleSubmit} className="flex-grow p-6 space-y-6 overflow-y-auto">
-          {/* ข้อมูลประกาศ */}
           <div className="space-y-4">
             <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>รายละเอียดประกาศ</h4>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -764,7 +748,6 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             </div>
           </div>
 
-          {/* ข้อมูลเอเจ้นท์ / ผู้ติดต่อ (แสดงต่อสาธารณะ) */}
           <div className="pt-2 space-y-4">
             <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลเอเจ้นท์ / ผู้ติดต่อ (แสดงหน้าเว็บให้ลูกค้าเห็น)</h4>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -787,9 +770,8 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
             </div>
           </div>
 
-          {/* ข้อมูลเจ้าของห้อง (ลับ - เห็นเฉพาะแอดมินเท่านั้น) */}
           <div className="p-4 pt-2 space-y-4 border-2 border-rose-100 bg-rose-50/40 rounded-2xl">
-            <h4 className="pl-3 text-sm font-bold border-l-4 text-rose-900 border-rose-500">🔒 ข้อมูลเจ้าของห้อง (ลับ - เห็นเฉพาะแอดมินหลังบ้านเท่านั้น)</h4>
+            <h4 className="pl-3 text-sm font-bold border-l-4 border-rose-500 text-rose-900">🔒 ข้อมูลเจ้าของห้อง (ลับ - เห็นเฉพาะแอดมินหลังบ้านเท่านั้น)</h4>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
                 <label className="block mb-1 text-xs font-bold text-rose-900">ชื่อเจ้าของห้อง</label>
@@ -801,12 +783,11 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
               </div>
               <div>
                 <label className="block mb-1 text-xs font-bold text-rose-900">LINE เจ้าของ</label>
-                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE || ''} onChange={handleChange} placeholder="LINE ID..." className="w-full p-3 text-sm bg-white border outline-none border-rose-200 rounded-xl focus:border-rose-500" />
+                <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE || ''} onChange={handleChange} className="w-full p-3 text-sm bg-white border outline-none border-rose-200 rounded-xl focus:border-rose-500" />
               </div>
             </div>
           </div>
 
-          {/* รูปภาพห้องพัก */}
           <div className="pt-2 space-y-4">
             <div className="flex items-center justify-between">
               <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>รูปภาพประกาศ</h4>
@@ -1048,7 +1029,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen font-sans text-gray-900 bg-gray-50 selection:bg-blue-200">
-      
       <nav className={`fixed w-full z-40 transition-all duration-300 ${isAdmin ? 'bg-white shadow-sm' : 'bg-transparent shadow-none'}`}>
         <div className="flex items-center justify-between h-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsAdmin(false)}>
