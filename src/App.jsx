@@ -228,11 +228,11 @@ const PublicView = ({ units, themeConfig }) => {
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-2xl text-left">
             <h1 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl drop-shadow-lg">
-               หาเช่า บ้าน คอนโด โกดัง ทาวน์โฮม
+               หาเช่า บ้าน | คอนโด 
             </h1>
             <div className="flex flex-wrap gap-3 mt-4 text-sm font-medium text-white/90 sm:text-base drop-shadow-md">
               <span>คอนโดหรู</span> • <span>เช่าคอนโด</span> • <span>ขายคอนโด</span> • 
-              <span>เช่าบ้าน</span> • <span>ขายบ้าน</span> • <span>ขายที่ดิน</span>
+              <span>เช่าบ้าน</span> • <span>ขายบ้าน</span> 
             </div>
           </div>
         </div>
