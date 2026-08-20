@@ -63,7 +63,7 @@ const POPULAR_ZONES = [
   { name: "พระราม 9 ห้วยขวาง รัชดา", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
 ];
 
-const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'ประกันภัย ให้เช่าหายห่วง', 'ทรัพย์ใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
+const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'ทาวน์โฮม',  'คอนโดใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย', 'โกดัง'];
 const PROPERTY_CATEGORIES = [
   { name: 'คอนโด', icon: '🏢' },
   { name: 'บ้านเดี่ยว', icon: '🏡' },
