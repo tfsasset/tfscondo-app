@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 // ==========================================
@@ -11,7 +9,6 @@ const SUPABASE_ANON_KEY = 'sb_publishable_leBQo88PZWYV800h4C6dUA_Oj4gMzMm';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const isSupabaseConfigured = true;
-
 
 // ==========================================
 // ข้อมูลตั้งต้น
