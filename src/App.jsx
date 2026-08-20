@@ -344,10 +344,10 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
             <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-              ซื้อ · ขาย · เช่า <span className="font-normal text-white/80">|</span> คอนโดและบ้าน
+             FIND YOUR PERFECT PROPERTY <span className="font-normal text-white/80"></span> 
             </h1>
             <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-               เช่าคอนโด · ขายคอนโด · เช่าบ้าน · ขายบ้าน · ที่ดิน
+               Thailand Properties for Rent & Sale
             </p>
           </div>
         </div>
