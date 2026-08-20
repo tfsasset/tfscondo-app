@@ -1,30 +1,17 @@
-
 import React, { useState, useEffect } from 'react';
 
-// สร้างตัวจำลองเพื่อไม่ให้หน้าต่างพรีวิวขัดข้อง
-const createClient = (url, key) => ({
-  from: () => ({
-    select: () => ({ order: () => Promise.resolve({ data: [], error: null }) }),
-    upsert: () => Promise.resolve({ error: null }),
-    delete: () => ({ eq: () => Promise.resolve({ error: null }) })
-  }),
-  storage: {
-    from: () => ({
-      upload: () => Promise.resolve({ data: {}, error: null }),
-      getPublicUrl: () => ({ data: { publicUrl: 'https://placehold.co/600x400?text=Mock+Image' } })
-    })
-  }
-});
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
 
 // ==========================================
-// ⚠️ ใส่ URL และ KEY ของ Supabase ของคุณที่นี่
+// ⚠️ เชื่อมต่อ Supabase ของจริง 100%
 // ==========================================
 const SUPABASE_URL = 'https://atbyudnixujiwlxepchh.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_leBQo88PZWYV800h4C6dUA_Oj4gMzMm';
 
-// สร้างตัวเชื่อมต่อฐานข้อมูล
-const isSupabaseConfigured = SUPABASE_URL.includes('supabase.co') && !SUPABASE_URL.includes('XXXXXXXXXX');
-const supabase = isSupabaseConfigured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const isSupabaseConfigured = true;
+
 
 // ==========================================
 // ข้อมูลตั้งต้น
