@@ -186,7 +186,6 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
 const PublicView = ({ units, themeConfig }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('หาซื้อ');
-  const [selectedZone, setSelectedZone] = useState('ทั้งหมด');
 
   const filteredUnits = units.filter(unit => {
     const matchSearch = (unit.projectName || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -295,7 +294,6 @@ const PublicView = ({ units, themeConfig }) => {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {POPULAR_ZONES.map((zone, idx) => (
             <div key={idx} onClick={() => setSearchTerm(zone.name)} className="relative h-56 overflow-hidden bg-gray-400 border border-gray-200 shadow-sm cursor-pointer group rounded-xl">
-              {/* ใช้สีเทาเป็นพื้นหลังแทนรูปภาพชั่วคราวเพื่อให้เหมือน Mockup */}
               <div className="absolute inset-0 flex flex-col justify-end p-4 text-center bg-gradient-to-t from-black/70 via-black/20 to-transparent">
                 <h3 className="text-lg font-bold text-white">{zone.name}</h3>
                 <p className="text-gray-200 text-[10px] mt-1 line-clamp-1">ขาย เช่า คอนโด บ้าน ที่ดิน {zone.name}</p>
@@ -453,7 +451,7 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
                 <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-30`}>
                   <div className="font-semibold text-gray-800 mb-0.5">{unit.ownerName || '-'}</div>
                   <div className="font-medium text-gray-600">{unit.ownerPhone || '-'}</div>
-                  <div className="text-xs text-gray-400">{unit.owneIDLINE || '-'}</div>
+                  <div className="text-xs text-gray-400">{unit.ownerIDLINE || '-'}</div>
                 </td>
                 <td className="p-4">
                   <div className="flex justify-center gap-2">
@@ -471,13 +469,22 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
 );
 
 const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => {
-  const [formData, setFormData] = useState({ projectName: '', unitNumber: '', building: '', floor: '', size: '', status: 'available', price: '', ownerName: '', ownerPhone: '', ownerEmail: '', detailUrl: '', images: [] });
+  const [formData, setFormData] = useState({ 
+    projectName: '', unitNumber: '', building: '', floor: '', size: '', 
+    status: 'available', price: '', ownerName: '', ownerPhone: '', 
+    ownerIDLINE: '', ownerLINK: '', detailUrl: '', images: [] 
+  });
+  
   const [isCompressing, setIsCompressing] = useState(false);
   const [uploadStatus, setUploadStatus] = useState('');
 
   useEffect(() => {
     if (isOpen) {
-      setFormData(unitToEdit ? { ...unitToEdit, images: unitToEdit.images ? [...unitToEdit.images] : [] } : { projectName: '', unitNumber: '', building: '', floor: '', size: '', status: 'available', price: '', ownerName: '', ownerPhone: '', ownerEmail: '', detailUrl: '', images: [] });
+      setFormData(unitToEdit ? { ...unitToEdit, images: unitToEdit.images ? [...unitToEdit.images] : [] } : { 
+        projectName: '', unitNumber: '', building: '', floor: '', size: '', 
+        status: 'available', price: '', ownerName: '', ownerPhone: '', 
+        ownerIDLINE: '', ownerLINK: '', detailUrl: '', images: [] 
+      });
       setUploadStatus('');
     }
   }, [isOpen, unitToEdit]);
@@ -568,7 +575,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
           {/* ข้อมูลเจ้าของห้อง */}
           <div className="pt-2 space-y-4">
             <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลเจ้าของห้อง</h4>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อ-นามสกุล</label>
                 <input required type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
@@ -582,7 +589,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                 <input type="text" name="ownerIDLINE" value={formData.ownerIDLINE} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
                <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">LINK</label>
+                <label className="block mb-1 text-xs font-bold text-gray-600">LINK (โซเชียลเจ้าของ)</label>
                 <input type="url" name="ownerLINK" value={formData.ownerLINK} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-transparent text-sm`} />
               </div>
             </div>
@@ -727,7 +734,7 @@ export default function App() {
     } else {
       setUnits([{
         id: "mock1", projectName: "IDEO CHULA SAMYAN", unitNumber: "A-101", building: "ตึก A", floor: 12, size: "35 ตร.ม.", 
-        status: "available", price: "15,000", ownerName: "สมชาย ใจดี", ownerPhone: "081-234-5678", ownerEmail: "somchai@example.com", 
+        status: "available", price: "15,000", ownerName: "สมชาย ใจดี", ownerPhone: "081-234-5678", ownerIDLINE: "somchai_line", ownerLINK: "",
         detailUrl: "https://example.com",
         images: ["https://placehold.co/600x400/e2e8f0/475569?text=IDEO+CHULA"]
       }]);
