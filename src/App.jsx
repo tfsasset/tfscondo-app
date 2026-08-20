@@ -63,7 +63,7 @@ const POPULAR_ZONES = [
   { name: "พระราม 9 ห้วยขวาง รัชดา", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
 ];
 
-const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'ประกันภัย ให้เช่าหายห่วง', 'ทรัพย์ใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
+const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
 const PROPERTY_CATEGORIES = [
   { name: 'คอนโด', icon: '🏢' },
   { name: 'บ้านเดี่ยว', icon: '🏡' },
@@ -344,10 +344,10 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
             <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-              ซื้อ · ขาย · เช่า <span className="font-normal text-white/80">|</span> คอนโดและบ้านทั่วกรุงเทพฯ
+              ซื้อ · ขาย · เช่า <span className="font-normal text-white/80">|</span> คอนโดและบ้าน
             </h1>
             <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-              คอนโดหรู · เช่าคอนโด · ขายคอนโด · เช่าบ้าน · ขายบ้าน · ที่ดิน
+               เช่าคอนโด · ขายคอนโด · เช่าบ้าน · ขายบ้าน · ที่ดิน
             </p>
           </div>
         </div>
