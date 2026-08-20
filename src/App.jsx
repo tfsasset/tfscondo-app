@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
@@ -342,11 +343,11 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
 
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
-            <h1 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
               ซื้อ · ขาย · เช่า <span className="font-normal text-white/80">|</span> คอนโดและบ้านทั่วกรุงเทพฯ
             </h1>
             <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-              คอนโดหรู · เช่าคอนโด · ขายคอนโด · เช่าบ้าน · ขายบ้าน · ทำเลทองใจกลางเมือง
+              คอนโดหรู · เช่าคอนโด · ขายคอนโด · เช่าบ้าน · ขายบ้าน · ที่ดิน
             </p>
           </div>
         </div>
@@ -371,16 +372,16 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
           </div>
           <div className="flex flex-col items-center gap-4 p-6 sm:p-8 sm:flex-row">
             <div className="relative flex-grow w-full">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-5 text-gray-400 pointer-events-none"><Icons.Search /></div>
+              <div className="absolute inset-y-0 left-0 flex items-center pl-6 text-gray-400 pointer-events-none"><Icons.Search /></div>
               <input 
                 type="text" 
                 placeholder="กรอกชื่อ ทำเล / โครงการ / รถไฟฟ้า..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full py-4 pr-6 text-base text-gray-900 placeholder-gray-400 transition-all border border-gray-200 shadow-inner pl-13 bg-gray-50/80 hover:bg-gray-50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
+                className="w-full py-4 pr-6 text-base text-gray-900 placeholder-gray-400 transition-all border rounded-full shadow-inner pl-14 bg-gray-50/80 hover:bg-gray-50 border-gray-200/80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
               />
             </div>
-            <button className={`w-full sm:w-auto px-10 py-4 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-500/25 whitespace-nowrap text-base`}>
+            <button className={`w-full sm:w-auto px-12 py-4 ${themeConfig.bg} ${themeConfig.hover} text-white font-bold rounded-full transition-all shadow-lg shadow-blue-500/25 whitespace-nowrap text-base`}>
               ค้นหา
             </button>
           </div>
