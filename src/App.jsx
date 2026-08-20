@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
@@ -166,9 +167,19 @@ const SettingsModal = ({ isOpen, onClose, config, onSave }) => {
             <label className="block mb-2 text-sm font-bold text-gray-700">รูปภาพแบนเนอร์ (Hero Banner)</label>
             <div className="space-y-3">
               <label className="block w-full px-4 py-3 text-sm font-bold text-center text-gray-600 transition-colors border-2 border-gray-300 border-dashed cursor-pointer rounded-xl hover:border-orange-500 hover:text-orange-600">
-                คลิกเพื่อเปลี่ยนรูปภาพแบนเนอร์
+                คลิกเพื่อเปลี่ยนรูปภาพแบนเนอร์จากเครื่อง
                 <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
               </label>
+              <div>
+                <span className="block mb-1 text-xs font-semibold text-gray-500">หรือวางลิงก์รูปภาพ (Image URL):</span>
+                <input 
+                  type="url" 
+                  value={formData.bannerUrl && !formData.bannerUrl.startsWith('data:') ? formData.bannerUrl : ''} 
+                  onChange={(e) => setFormData({...formData, bannerUrl: e.target.value})} 
+                  placeholder="https://images.unsplash.com/..." 
+                  className="w-full p-3 text-sm border border-gray-300 outline-none rounded-xl focus:border-orange-500" 
+                />
+              </div>
               {formData.bannerUrl && (
                 <div className="relative h-32 overflow-hidden border border-gray-200 rounded-xl">
                   <img src={formData.bannerUrl} alt="Banner Preview" className="object-cover w-full h-full" />
@@ -342,12 +353,12 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
 
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
-           <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-            FIND YOUR PERFECT PROPERTY <span className="font-normal text-white/80"></span> 
-            </h1>
-            <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-            Thailand Properties for Rent & Sale
-            </p>
+      <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+        FIND YOUR PERFECT PROPERTY <span className="font-normal text-white/80"></span> 
+        </h1>
+        <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+        Thailand Properties for Rent & Sale
+          </p>
           </div>
         </div>
       </div>
@@ -891,7 +902,8 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [units, setUnits] = useState([]);
   
-  const [appConfig, setAppConfig] = useState({ 
+  const cachedSettings = JSON.parse(localStorage.getItem('tfs_site_config'));
+  const [appConfig, setAppConfig] = useState(cachedSettings || { 
     companyName: 'TFS Asset', 
     logoUrl: '', 
     bannerUrl: '', 
@@ -921,13 +933,15 @@ export default function App() {
 
         const { data: settingsData, error: settingsError } = await supabase.from('site_settings').select('*').eq('id', '1').maybeSingle();
         if (!settingsError && settingsData) {
-          setAppConfig({
+          const newSettings = {
             companyName: settingsData.companyName || 'TFS Asset',
             logoUrl: settingsData.logoUrl || '',
             bannerUrl: settingsData.bannerUrl || '',
             theme: settingsData.theme || 'blue',
             adminPassword: settingsData.adminPassword || 'admin'
-          });
+          };
+          setAppConfig(newSettings);
+          localStorage.setItem('tfs_site_config', JSON.stringify(newSettings));
         }
       }
     } catch (err) {
@@ -1019,7 +1033,9 @@ export default function App() {
       };
 
       await supabase.from('site_settings').upsert(dbConfig);
-      setAppConfig({...newConfig, logoUrl: finalLogoUrl, bannerUrl: finalBannerUrl});
+      const finalSettings = {...newConfig, logoUrl: finalLogoUrl, bannerUrl: finalBannerUrl};
+      setAppConfig(finalSettings);
+      localStorage.setItem('tfs_site_config', JSON.stringify(finalSettings));
     }
     setIsSettingsOpen(false);
   };
