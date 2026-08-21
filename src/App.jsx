@@ -64,7 +64,7 @@ const PROJECT_LIST = [
       "Supalai Park Yaek Fai Chai Station", "Supalai Loft Yaek Fai Chai Station",
       "Nue Noble Fai Chai-Wang Lang", "Lumpini Ville Charan-Fai Chai", "Sun City MRT Yaek Fai Chai",
       "Lumpini Selected Charan 65-Sirindhorn Station", "The Tree Charan-Bang Phlat",
-      "The Privacy Charan-Ratchawithi Station", "SO Origin Siriraj"
+      "The Privacy Charan-Ratchawithi Station", "SO Origin Siriraj", "Chateau In Town Pinklao–Siriraj"
      ]
   }
 ];
