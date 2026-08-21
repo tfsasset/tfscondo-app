@@ -968,9 +968,9 @@ export default function App() {
   
   const cachedSettings = JSON.parse(localStorage.getItem('tfs_site_config'));
   const [appConfig, setAppConfig] = useState(cachedSettings || { 
-    companyName: 'TFS Asset', 
-    logoUrl: '', 
-    bannerUrl: '', 
+    companyName: 'TFS ASSET', 
+    logoUrl: 'href="/LOGO.PNG"', 
+    bannerUrl:'href="/BANNER.PNG"', 
     theme: 'blue', 
     adminPassword: 'admin' 
   });
@@ -998,9 +998,9 @@ export default function App() {
         const { data: settingsData, error: settingsError } = await supabase.from('site_settings').select('*').eq('id', '1').maybeSingle();
         if (!settingsError && settingsData) {
           const newSettings = {
-            companyName: settingsData.companyName || 'TFS Asset',
-            logoUrl: settingsData.logoUrl || '',
-            bannerUrl: settingsData.bannerUrl || '',
+            companyName: settingsData.companyName || 'TFS ASSET',
+            logoUrl: settingsData.logoUrl || 'href="/LOGO.PNG"',
+            bannerUrl: settingsData.bannerUrl || 'href="/BANNER.PNG"',
             theme: settingsData.theme || 'blue',
             adminPassword: settingsData.adminPassword || 'admin'
           };
