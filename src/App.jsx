@@ -769,9 +769,9 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                 onChange={(e) => {
                   const val = e.target.value;
                   if (val === 'TEENOI') {
-                    setFormData(prev => ({ ...prev, agentName: 'TEENOI AGENT', agentPhone: '0809768545', agentIDLINE: '@402muzza' }));
+                    setFormData(prev => ({ ...prev, agentName: 'TEENOI AGENT', agentPhone: '0809768545', agentIDLINE: '@402muzza' , agentLINK: 'https://lin.ee/pzVZf5S' }));
                   } else if (val === 'FERN') {
-                    setFormData(prev => ({ ...prev, agentName: 'FERN AGENT', agentPhone: '0950519992', agentIDLINE: '@402muzza' }));
+                    setFormData(prev => ({ ...prev, agentName: 'FERN AGENT', agentPhone: '0950519992', agentIDLINE: '@402muzza' , agentLINK: 'https://lin.ee/pzVZf5S' }));
                   } else if (val === 'CLEAR') {
                     setFormData(prev => ({ ...prev, agentName: '', agentPhone: '', agentIDLINE: '', agentLINK: '' }));
                   }
