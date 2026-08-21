@@ -53,6 +53,19 @@ const PROJECT_LIST = [
       "PARK ORIGIN CHULA SAMYAN", "CHAPTER CHULA SAMYAN", "TRIPLE Y RESIDENCE", "CULTURE CHULA",
       "THE SEED MEMORIES SIAM", "THE ROOM RAMA 4", "COOPER SIAM", "WISH @ SAMYAN"
     ]
+  },
+  {
+    zone: "ปิ่นเกล้า ศิริราช จรัญ",
+    projects: [
+      "LIFE ปิ่นเกล้า", "The Parkland จรัญฯ-ปิ่นเกล้า", "Plum Condo Pinklao Station",
+      "Chewathai Pinklao", "The Origin Pinklao", "WHIZDOM COEX Pinklao",
+      "Aspire Pinklao-Arun Ammarin", "Aspire Arun Prive", "Ideo Mobi Charan Interchange",
+      "The Tree Charan 30", "D Bura Prannok", "The President Charan-Yaek Fai Chai Station",
+      "Supalai Park Yaek Fai Chai Station", "Supalai Loft Yaek Fai Chai Station",
+      "Nue Noble Fai Chai-Wang Lang", "Lumpini Ville Charan-Fai Chai", "Sun City MRT Yaek Fai Chai",
+      "Lumpini Selected Charan 65-Sirindhorn Station", "The Tree Charan-Bang Phlat",
+      "The Privacy Charan-Ratchawithi Station", "SO Origin Siriraj"
+     ]
   }
 ];
 
