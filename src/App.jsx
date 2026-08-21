@@ -57,8 +57,8 @@ const PROJECT_LIST = [
 ];
 
 const POPULAR_ZONES = [
-  { name: "สาทร พระราม 3", bg: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80" },
-  { name: "อ่อนนุช", bg: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" },
+  { name: "จุฬา สามย่าน สีลม", bg: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80" },
+  { name: "ปิ่นเกล้า จรัญ ศิริราช", bg: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" },
   { name: "สุขุมวิท อโศก", bg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" },
   { name: "พระราม 9 ห้วยขวาง รัชดา", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
 ];
