@@ -63,7 +63,7 @@ const POPULAR_ZONES = [
   { name: "พระราม 9 ห้วยขวาง รัชดา", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
 ];
 
-const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'ทาวน์โฮม',  'คอนโดใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย', 'โกดัง'];
+const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'บทความ', 'ประกันภัย ให้เช่าหายห่วง', 'ทรัพย์ใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย'];
 const PROPERTY_CATEGORIES = [
   { name: 'คอนโด', icon: '🏢' },
   { name: 'บ้านเดี่ยว', icon: '🏡' },
@@ -353,12 +353,12 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
 
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
-      <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-        FIND YOUR PERFECT PROPERTY <span className="font-normal text-white/80"></span> 
-        </h1>
-        <p className="mt-4 text-base font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-        Thailand Properties for Rent & Sale
-          </p>
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+              ซื้อ · ขาย · เช่า <span className="font-normal text-white/80">|</span> คอนโดและบ้านทั่วกรุงเทพฯ
+            </h1>
+            <p className="mt-4 text-base italic font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
+              Thailand Properties for Rent & Sale
+            </p>
           </div>
         </div>
       </div>
@@ -761,6 +761,32 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
 
           <div className="pt-2 space-y-4">
             <h4 className={`font-bold text-gray-800 text-sm border-l-4 ${themeConfig.border} pl-3`}>ข้อมูลเอเจ้นท์ / ผู้ติดต่อ (แสดงหน้าเว็บให้ลูกค้าเห็น)</h4>
+            
+            {}
+            <div className="p-4 border border-blue-100 bg-blue-50/70 rounded-2xl">
+              <label className="block mb-2 text-xs font-extrabold text-blue-800">⭐ เลือกโปรไฟล์เอเจ้นท์ (ระบบจะเติมข้อมูลให้อัตโนมัติ)</label>
+              <select 
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === 'TEENOI') {
+                    setFormData(prev => ({ ...prev, agentName: 'TEENOI AGENT', agentPhone: '0809768545', agentIDLINE: '@402muzza' }));
+                  } else if (val === 'FERN') {
+                    setFormData(prev => ({ ...prev, agentName: 'FERN AGENT', agentPhone: '0950519992', agentIDLINE: '@402muzza' }));
+                  } else if (val === 'CLEAR') {
+                    setFormData(prev => ({ ...prev, agentName: '', agentPhone: '', agentIDLINE: '', agentLINK: '' }));
+                  }
+                  e.target.value = ""; // รีเซ็ตกลับเป็นค่าว่างเพื่อให้กดเลือกซ้ำได้
+                }}
+                defaultValue=""
+                className={`w-full border border-blue-200 bg-white rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-blue-500 text-sm font-bold text-blue-700 shadow-sm cursor-pointer`}
+              >
+                <option value="" disabled>-- คลิกเพื่อเลือกเอเจ้นท์ที่ต้องการ --</option>
+                <option value="TEENOI">TEENOI AGENT (เบอร์: 0809768545)</option>
+                <option value="FERN">FERN AGENT (เบอร์: 0950519992)</option>
+                <option value="CLEAR">-- ล้างข้อมูล (เพื่อพิมพ์กรอกเอง) --</option>
+              </select>
+            </div>
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ชื่อเอเจ้นท์ / ผู้ดูแล</label>
