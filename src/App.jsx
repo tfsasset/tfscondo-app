@@ -1122,6 +1122,17 @@ export default function App() {
       <UnitFormModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditingUnit(null); }} onSave={handleSave} unitToEdit={editingUnit} themeConfig={themeConfig} />
       <DeleteConfirmModal isOpen={deleteId !== null} onClose={() => setDeleteId(null)} onConfirm={confirmDelete} />
       <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} themeConfig={themeConfig} expectedPassword={appConfig.adminPassword} onLogin={() => { setIsAuthenticated(true); setIsAdmin(true); setShowLogin(false); }} />
+        {/* 🟢 Footer */}
+      <footer className="py-8 mt-12 bg-white border-t border-gray-100">
+        <div className="px-4 mx-auto text-center max-w-7xl">
+          <p className="text-sm font-medium text-gray-400">
+            © {new Date().getFullYear()} {appConfig.companyName}. All rights reserved.
+          </p>
+          <p className="mt-1 text-xs text-gray-300">
+            Powered by TFS ASSET Management System
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
