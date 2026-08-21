@@ -51,7 +51,8 @@ const PROJECT_LIST = [
     projects: [
       "IDEO CHULA SAMYAN", "IDEO Q CHULA SAMYAN", "ASHTON CHULA SILOM", "THE NEST CHULA SAMYAN",
       "PARK ORIGIN CHULA SAMYAN", "CHAPTER CHULA SAMYAN", "TRIPLE Y RESIDENCE", "CULTURE CHULA",
-      "THE SEED MEMORIES SIAM", "THE ROOM RAMA 4", "COOPER SIAM", "WISH @ SAMYAN" , "CHAMCHURI RESIDENCE"
+      "THE SEED MEMORIES SIAM", "THE ROOM RAMA 4", "COOPER SIAM", "WISH @ SAMYAN" , "CHAMCHURI RESIDENCE",
+      "VERTIQ CONDO RAMA4" , "ALTITUDE DEFINE", "ALTITUDE SAMYAN SILOM", "CU TERRACE"
     ]
   },
   {
@@ -66,6 +67,22 @@ const PROJECT_LIST = [
       "Lumpini Selected Charan 65-Sirindhorn Station", "The Tree Charan-Bang Phlat",
       "The Privacy Charan-Ratchawithi Station", "SO Origin Siriraj", "Chateau In Town Pinklao–Siriraj" , "ASPIRE Itsaraphap"
      ]
+  },
+  {
+    zone: "ตลาดพลู บางหว้า เพชรเกษม บางแค",
+    projects: [
+      "The Parkland Ratchada-Thapra", "Supalai Park Talat Phlu Station", "Supalai Loft Talat Phlu", 
+      "Lumpini Place Ratchada-Thapra", "Aspire Sathorn-Thapra", "Ideo Sathorn-Thapra", 
+      "Bangkok Horizon Ratchada-Thapra", "Casa Condo Ratchada-Thapra", "Aspire Wutthakat", 
+      "Ideo Wutthakat", "The Tempo Grand Wutthakat", "PE-LA Wutthakat", 
+      "The Key Sathorn-Ratchaphruek", "Aspire Sathorn-Ratchaphruek", "The President Sathorn-Ratchaphruek", 
+      "The President Sathorn-Ratchaphruek 2", "The President Sathorn-Ratchaphruek 3", "Beat Bangwa Interchange",
+      "Chewathai Phetkasem 27", "Supalai Park Ratchaphruek-Phetkasem", "Bangkok Horizon P48", "Bangkok Horizon Phetkasem", 
+      "The Base Phetkasem", "The Parkland Phetkasem 56", "Supalai Veranda Phasi Charoen Station", 
+      "Supalai Loft Phasi Charoen Station", "iCondo Phetkasem 39", "The Parkland Phetkasem", "The Prodigy MRT Bangkhae", 
+      "Bangkok Feliz @ Bangkae Station", "The President Phetkasem-Bangkae", "Lumpini Ville Bangkae", "Lumpini Condo Town Bangkae", 
+      "Plum Condo Bangkae", "Sena Kith MRT-Bangkae", "The Muve Bangkhae", "The Muve Paw Bangkhae"
+    ]
   }
 ];
 
