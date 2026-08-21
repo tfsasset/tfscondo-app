@@ -787,8 +787,8 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
               </div>
 
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">เดือน/ปี ที่จะว่าง (เว้นว่างได้)</label>
-                <input type="text" name="availableDate" value={formData.availableDate || ''} onChange={handleChange} placeholder="เช่น ว่าง ก.ย. 67" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <label className="block mb-1 text-xs font-bold text-gray-600">วันที่ / เดือน ที่จะว่าง (ระบุเมื่อห้องไม่ว่าง)</label>
+                <input type="date" name="availableDate" value={formData.availableDate || ''} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} text-sm text-gray-700`} />
               </div>
 
               <div className="sm:col-span-2">
