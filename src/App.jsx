@@ -354,7 +354,7 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         <div className="relative z-10 w-full px-4 pt-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-3xl text-left">
             <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-white tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
-              FIND YOUR PERFECT PROPERTY="font-normal text-white/80"></span> 
+              FIND YOUR PERFECT PROPERTY 
             </h1>
             <p className="mt-4 text-base italic font-normal tracking-wide sm:text-lg text-white/90 drop-shadow-md" style={{ fontFamily: '"LINE Seed Sans TH", "Prompt", sans-serif' }}>
               Thailand Properties for Rent & Sale
