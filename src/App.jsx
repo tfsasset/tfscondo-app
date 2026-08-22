@@ -999,8 +999,8 @@ export default function App() {
         if (!settingsError && settingsData) {
           const newSettings = {
             companyName: settingsData.companyName || 'TFS ASSET',
-            logoUrl: settingsData.logoUrl || 'href="/LOGO.PNG"',
-            bannerUrl: settingsData.bannerUrl || 'href="/BANNER.PNG"',
+            logoUrl: settingsData.logoUrl || '/NEWLOGO.PNG',     // <-- แก้เป็นพาธรูปภาพตรงๆ
+            bannerUrl: settingsData.bannerUrl || '/BANNER.PNG', // <-- แก้เป็นพาธรูปภาพตรงๆ
             theme: settingsData.theme || 'blue',
             adminPassword: settingsData.adminPassword || 'admin'
           };
