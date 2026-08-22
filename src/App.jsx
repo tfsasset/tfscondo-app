@@ -809,7 +809,8 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                   <option value="สตูดิโอ">สตูดิโอ</option>
                   <option value="1 ห้องนอน">1 ห้องนอน</option>
                   <option value="2 ห้องนอน">2 ห้องนอน</option>
-                  <option value="3 ห้องนอนขึ้นไป">3 ห้องนอนขึ้นไป</option>
+                  <option value="3 ห้องนอนขึ้นไป">3 ห้องนอน</option>
+                  <option value="4 ห้องนอนขึ้นไป">4 ห้องนอน</option>
                 </select>
               </div>
 
