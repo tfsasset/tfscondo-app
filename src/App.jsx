@@ -305,6 +305,20 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
                     <span className="font-bold text-gray-800">{unit.size}</span>
                   </div>
                 </div>
+                
+                {/* 👇 เพิ่มกรอบแสดงวันที่ว่างตรงนี้ 👇 */}
+                {unit.status !== 'available' && unit.availableDate && (
+                  <div className="flex items-center gap-3 p-4 mt-5 border shadow-sm bg-amber-50 border-amber-200 rounded-xl">
+                    <span className="text-2xl">📅</span>
+                    <div>
+                      <span className="block text-xs font-bold tracking-wider uppercase text-amber-600">สถานะปัจจุบัน: ติดผู้เช่า</span>
+                      <span className="text-sm font-extrabold text-amber-900">คาดว่าจะว่างวันที่: {new Date(unit.availableDate).toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                    </div>
+                  </div>
+                )}
+                  
+                  
+               
               </div>
 
               {unit.detailUrl && (
@@ -770,7 +784,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
 
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ขนาดพื้นที่ (ตร.ม.)</label>
-                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />ตร.ม
               </div>
 
               <div>
