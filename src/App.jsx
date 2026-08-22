@@ -15,7 +15,7 @@ const PROJECT_LIST = [
       "RHYTHM SATHORN-NARATHIWAS", "SALADAENG ONE", "THE PARKLAND GRAND TAKSIN",
       "ASPIRE SATHORN-THAPRA", "METRO PARK SATHORN", "SUPALAI PRIME RAMA 3",
       "NARAYANA PLACE", "LUMPINI PLACE RAMA 3-RIVERVIEW", "THE ISSARA SATHORN",
-      "CHATEAU IN TOWN SATHORN-NARATHIWAS", "THE ROOM SATHORN-ST.LOUIS"
+      "CHATEAU IN TOWN SATHORN-NARATHIWAS", "THE ROOM SATHORN-ST.LOUIS", "BAANSIRI YENAKART"
     ]
   },
   {
@@ -53,7 +53,7 @@ const PROJECT_LIST = [
       "PARK ORIGIN CHULA SAMYAN", "CHAPTER CHULA SAMYAN", "TRIPLE Y RESIDENCE", "CULTURE CHULA",
       "THE SEED MEMORIES SIAM", "THE ROOM RAMA 4", "COOPER SIAM", "WISH @ SAMYAN" , "CHAMCHURI RESIDENCE",
       "VERTIQ CONDO RAMA4" , "ALTITUDE DEFINE", "ALTITUDE SAMYAN SILOM", "CU TERRACE" ,"IDEO Q RATCHATHEWI",
-      "IDEO Q SIAM-RATCHATHEWI", "THE LINE RATCHATHEWI", "THE LINE PHAYATHAI" , "IDEO Q PHAYATHAI"
+      "IDEO Q SIAM-RATCHATHEWI", "THE LINE RATCHATHEWI", "THE LINE PHAYATHAI", "IDEO Q PHAYATHAI"
     ]
   },
   {
@@ -84,14 +84,25 @@ const PROJECT_LIST = [
       "Bangkok Feliz @ Bangkae Station", "The President Phetkasem-Bangkae", "Lumpini Ville Bangkae", "Lumpini Condo Town Bangkae", 
       "Plum Condo Bangkae", "Sena Kith MRT-Bangkae", "The Muve Bangkhae", "The Muve Paw Bangkhae"
     ]
+  },
+  {
+    zone: "พญาไท อารีย์ สะพานควาย จตุจักร",
+    projects: [
+      "THE LINE JATUJAK-MOCHIT", "THE LINE PHAHON-PRADIPAT", "IDEO Q PHAHOL-SAPHANKHWAI",
+      "LIFE LADPRAO", "LIFE LADPRAO VALLEY", "XT PHAYATHAI", "THE EXTRO PHAYATHAI-RANGNAM",
+      "RHYTHM PHAHOL-ARI", "CENTRIC ARI STATION", "THE RESERVE PHAHOL-PRADIPAT",
+      "ONYX PHAHOLYOTHIN", "NOBLE RE:D ARI", "NOBLE LITE", "NOBLE REFLEX",
+      "M JATUJAK", "LUMPINI PARK PHAHON 32", "KNIGHTSBRIDGE PRIME RATCHAYOTHIN",
+      "IDEO MIX PHAHOLYOTHIN", "THE EDITOR SAPHAN KHWAI", "THE SIGNATURE BY URBANO"
+    ]
   }
 ];
 
 const POPULAR_ZONES = [
-  { name: "จุฬา สามย่าน สีลม", bg: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80" },
-  { name: "ปิ่นเกล้า จรัญ ศิริราช", bg: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" },
-  { name: "สุขุมวิท อโศก", bg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" },
-  { name: "พระราม 9 ห้วยขวาง รัชดา", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
+  { name: "จุฬา สามย่าน สีลม", searchKey: "จุฬา", bg: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80" },
+  { name: "ปิ่นเกล้า จรัญ ศิริราช", searchKey: "ปิ่นเกล้า", bg: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" },
+  { name: "สุขุมวิท อโศก", searchKey: "สุขุมวิท", bg: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" },
+  { name: "พระราม 9 ห้วยขวาง รัชดา", searchKey: "พระราม 9", bg: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" }
 ];
 
 const SEARCH_TABS = ['หาซื้อ', 'หาเช่า', 'คอนโดใกล้ฉัน', 'คอนโดใกล้ BTS', 'คอนโดใกล้ MRT', 'คอนโดใกล้มหาวิทยาลัย','ทาวน์โฮม'];
@@ -276,7 +287,7 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
               </>
             )}
             <div className={`absolute top-4 right-4 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg ${unit.status === 'available' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
-              {unit.status === 'available' ? 'ว่างพร้อมเช่า' : (unit.availableDate ? `ไม่ว่าง (${unit.availableDate})` : 'ไม่ว่าง')}
+              {unit.status === 'available' ? 'ว่างพร้อมเช่า' : 'ไม่ว่าง'}
             </div>
           </div>
 
@@ -305,10 +316,9 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
                     <span className="font-bold text-gray-800">{unit.size}</span>
                   </div>
                 </div>
-                
-                {/* 👇 เพิ่มกรอบแสดงวันที่ว่างตรงนี้ 👇 */}
+
                 {unit.status !== 'available' && unit.availableDate && (
-                  <div className="flex items-center gap-3 p-4 mt-5 border shadow-sm bg-amber-50 border-amber-200 rounded-xl">
+                  <div className="flex items-center gap-3 p-4 mt-5 shadow-sm bg-amber-50 border-amber-200 rounded-xl">
                     <span className="text-2xl">📅</span>
                     <div>
                       <span className="block text-xs font-bold tracking-wider uppercase text-amber-600">สถานะปัจจุบัน: ติดผู้เช่า</span>
@@ -316,9 +326,6 @@ const UnitDetailModal = ({ isOpen, unit, onClose, themeConfig }) => {
                     </div>
                   </div>
                 )}
-                  
-                  
-               
               </div>
 
               {unit.detailUrl && (
@@ -395,7 +402,7 @@ const UnitCard = ({ unit, themeConfig }) => {
           </>
         )}
         <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold shadow-md ${unit.status === 'available' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
-          {unit.status === 'available' ? 'ว่างพร้อมเช่า' : (unit.availableDate ? `ไม่ว่าง (${unit.availableDate})` : 'ไม่ว่าง')}
+          {unit.status === 'available' ? 'ว่างพร้อมเช่า' : 'ไม่ว่าง'}
         </div>
       </div>
 
@@ -442,13 +449,30 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('หาซื้อ');
   const [selectedUnit, setSelectedUnit] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(9); // เพิ่ม State ควบคุมการแสดงผล 9 ห้อง
+
+  // รีเซ็ตการแสดงผลกลับไปเป็น 9 ห้องทุกครั้งที่มีการเปลี่ยนคำค้นหาหรือเปลี่ยนแท็บ
+  useEffect(() => {
+    setVisibleCount(9);
+  }, [searchTerm, activeTab]);
 
   const filteredUnits = units.filter(unit => {
+    // 1. ค้นหาจากข้อความที่พิมพ์
     const matchSearch = (unit.projectName || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
                         (unit.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                         (unit.zone || '').toLowerCase().includes(searchTerm.toLowerCase());
-    return matchSearch;
+                        
+    // 2. กรองจากแท็บที่เลือก (หาซื้อ / หาเช่า / ทาวน์โฮม)
+    let matchTab = true;
+    if (activeTab === 'หาซื้อ') matchTab = unit.actionType === 'ขาย';
+    else if (activeTab === 'หาเช่า') matchTab = unit.actionType === 'เช่า';
+    else if (activeTab === 'ทาวน์โฮม') matchTab = unit.propertyType === 'ทาวน์โฮม';
+
+    return matchSearch && matchTab;
   });
+
+  // ตัดข้อมูลมาแสดงผลตามจำนวน visibleCount (เริ่มต้นที่ 9)
+  const displayedUnits = filteredUnits.slice(0, visibleCount);
 
   const defaultBanner = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80";
 
@@ -535,7 +559,14 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {POPULAR_ZONES.map((zone, idx) => (
-            <div key={idx} onClick={() => setSearchTerm(zone.name)} className="relative h-56 overflow-hidden border border-gray-200 shadow-sm cursor-pointer group rounded-2xl">
+            <div 
+              key={idx} 
+              onClick={() => {
+                setSearchTerm(zone.searchKey || zone.name); // ใช้ searchKey สั้นๆ เพื่อให้แมตช์เจอ
+                window.scrollTo({ top: 400, behavior: 'smooth' }); // เลื่อนหน้าจอขึ้นไปตรงช่องค้นหาให้ด้วย
+              }} 
+              className="relative h-56 overflow-hidden border border-gray-200 shadow-sm cursor-pointer group rounded-2xl"
+            >
               <img src={zone.bg} alt={zone.name} className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 flex flex-col justify-end p-4 text-center bg-gradient-to-t from-black/80 via-black/20 to-transparent">
                 <h3 className="text-lg font-bold text-white">{zone.name}</h3>
@@ -559,13 +590,26 @@ const PublicView = ({ units, themeConfig, bannerUrl }) => {
             <button onClick={() => setSearchTerm('')} className={`mt-4 ${themeConfig.text} font-semibold hover:underline`}>ดูประกาศทั้งหมด</button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredUnits.map((unit) => (
-              <div key={unit.id} onClick={() => setSelectedUnit(unit)} className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-200 shadow-sm cursor-pointer rounded-3xl hover:shadow-xl group">
-                <UnitCard unit={unit} themeConfig={themeConfig} />
+          <>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {displayedUnits.map((unit) => (
+                <div key={unit.id} onClick={() => setSelectedUnit(unit)} className="flex flex-col overflow-hidden transition-all duration-300 bg-white border border-gray-200 shadow-sm cursor-pointer rounded-3xl hover:shadow-xl group">
+                  <UnitCard unit={unit} themeConfig={themeConfig} />
+                </div>
+              ))}
+            </div>
+
+            {visibleCount < filteredUnits.length && (
+              <div className="pt-12 pb-4 text-center">
+                <button 
+                  onClick={() => setVisibleCount(prev => prev + 9)}
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-white border-2 border-gray-200 rounded-full font-bold text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm hover:shadow-md active:scale-95"
+                >
+                  ดูประกาศเพิ่มเติม ({filteredUnits.length - visibleCount}) <Icons.ChevronRight />
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
 
@@ -623,9 +667,6 @@ const AdminView = ({ units, onEdit, onDelete, onAddNew, onOpenSettings, themeCon
                   <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold ${unit.status === 'available' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
                     {unit.status === 'available' ? 'ว่าง' : 'ไม่ว่าง'}
                   </span>
-                  {unit.status !== 'available' && unit.availableDate && (
-                    <div className="mt-1 text-xs font-bold text-rose-500">{unit.availableDate}</div>
-                  )}
                   <div className="mt-1 text-sm font-extrabold text-gray-900">฿{Number(unit.price || 0).toLocaleString()}</div>
                 </td>
                 <td className={`p-4 text-sm ${themeConfig.light} bg-opacity-30`}>
@@ -784,7 +825,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
 
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ขนาดพื้นที่ (ตร.ม.)</label>
-                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />ตร.ม
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
               </div>
 
               <div>
@@ -801,7 +842,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
               </div>
 
               <div>
-                <label className="block mb-1 text-xs font-bold text-gray-600">วันที่ / เดือน ที่จะว่าง (ระบุเมื่อห้องไม่ว่าง)</label>
+                <label className="block mb-1 text-xs font-bold text-gray-600">วันที่คาดว่าจะว่าง (ปฏิทิน)</label>
                 <input type="date" name="availableDate" value={formData.availableDate || ''} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none bg-white ${themeConfig.ring} text-sm text-gray-700`} />
               </div>
 
@@ -827,7 +868,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                   } else if (val === 'CLEAR') {
                     setFormData(prev => ({ ...prev, agentName: '', agentPhone: '', agentIDLINE: '', agentLINK: '' }));
                   }
-                  e.target.value = ""; 
+                  e.target.value = ""; // รีเซ็ตกลับเป็นค่าว่างเพื่อให้กดเลือกซ้ำได้
                 }}
                 defaultValue=""
                 className={`w-full border border-blue-200 bg-white rounded-xl p-3 outline-none ${themeConfig.ring} focus:border-blue-500 text-sm font-bold text-blue-700 shadow-sm cursor-pointer`}
@@ -983,8 +1024,8 @@ export default function App() {
   const cachedSettings = JSON.parse(localStorage.getItem('tfs_site_config'));
   const [appConfig, setAppConfig] = useState(cachedSettings || { 
     companyName: 'TFS ASSET', 
-    logoUrl: 'href="/LOGO.PNG"', 
-    bannerUrl:'href="/BANNER.PNG"', 
+    logoUrl: '/NEWLOGO.PNG', 
+    bannerUrl: '/BANNER.PNG', 
     theme: 'blue', 
     adminPassword: 'admin' 
   });
@@ -1013,8 +1054,8 @@ export default function App() {
         if (!settingsError && settingsData) {
           const newSettings = {
             companyName: settingsData.companyName || 'TFS ASSET',
-            logoUrl: settingsData.logoUrl || '/NEWLOGO.PNG',     // <-- แก้เป็นพาธรูปภาพตรงๆ
-            bannerUrl: settingsData.bannerUrl || '/BANNER.PNG', // <-- แก้เป็นพาธรูปภาพตรงๆ
+            logoUrl: settingsData.logoUrl || '/NEWLOGO.PNG',
+            bannerUrl: settingsData.bannerUrl || '/BANNER.PNG',
             theme: settingsData.theme || 'blue',
             adminPassword: settingsData.adminPassword || 'admin'
           };
