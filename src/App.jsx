@@ -824,11 +824,9 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
                 <input required type="text" name="floor" value={formData.floor} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
               </div>
 
-               <label className="block mb-1 text-xs font-bold text-gray-600">ขนาดพื้นที่</label>
-                <div className="flex items-center gap-3">
-                  <input required type="text" name="size" value={formData.size} onChange={handleChange} placeholder="เช่น 35" className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
-                  <span className="text-sm font-bold text-gray-500 whitespace-nowrap">ตร.ม.</span>
-                </div>
+              <div>
+                <label className="block mb-1 text-xs font-bold text-gray-600">ขนาดพื้นที่ (ตร.ม.)</label>
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} /> ตร.ม
               </div>
 
               <div>
