@@ -826,7 +826,7 @@ const UnitFormModal = ({ isOpen, onClose, onSave, unitToEdit, themeConfig }) => 
 
               <div>
                 <label className="block mb-1 text-xs font-bold text-gray-600">ขนาดพื้นที่ (ตร.ม.)</label>
-                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} />
+                <input required type="text" name="size" value={formData.size} onChange={handleChange} className={`w-full border border-gray-300 rounded-xl p-3 outline-none ${themeConfig.ring} text-sm`} /> ตร.ม
               </div>
 
               <div>
